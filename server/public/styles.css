@@ -25,7 +25,7 @@ header {
 
 .workout-but {
   position: absolute;
-  top: 65%;
+  top: 60%;
   left: 50%;
   background-color: #d90429;
   color: white;
@@ -35,4 +35,5 @@ header {
   border: none;
   cursor: pointer;
   border-radius: 5px;
+  text-decoration: none;
 }

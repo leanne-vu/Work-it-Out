@@ -9,4 +9,10 @@
     position: relative;
     left: 17em;
   }
+
+  form {
+    width: 900px;
+    position: relative;
+    left: 17em;
+  }
 }

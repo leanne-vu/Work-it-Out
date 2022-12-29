@@ -7,7 +7,10 @@ export default function Home(props) {
       <div>
         <Header />
       </div>
-      <div className="bg-img background" />
+      <div className="background-container">
+        <div className="bg-img background" />
+        <button className="workout-but">Add a Workout</button>
+      </div>
     </div>
   );
 }

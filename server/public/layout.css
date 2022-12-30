@@ -3,6 +3,10 @@
   flex-wrap: wrap;
 }
 
+.column-half {
+  width: 50%;
+}
+
 @media screen and (min-width: 768px) {
   .background {
     width: 900px;
@@ -14,5 +18,29 @@
     width: 900px;
     position: relative;
     left: 17em;
+  }
+
+  .muscle-group-label {
+    position: relative;
+    left: 4.5em;
+  }
+
+  .workoutname-column,
+  .rep-column {
+    text-align: left;
+    position: relative;
+    left: 4.5em;
+  }
+
+  .set-column {
+    text-align: left;
+    position: relative;
+    left: 8.5em;
+  }
+
+  .muscle-group-select {
+    position: relative;
+    top: 45px;
+    right: 6.7em;
   }
 }

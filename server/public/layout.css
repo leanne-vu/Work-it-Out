@@ -22,7 +22,7 @@
 
   .muscle-group-label {
     position: relative;
-    left: 4.5em;
+    left: 6.3em;
   }
 
   .workoutname-column,
@@ -41,6 +41,6 @@
   .muscle-group-select {
     position: relative;
     top: 45px;
-    right: 6.7em;
+    right: 10.5em;
   }
 }

@@ -39,8 +39,24 @@ export default class Form extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    this.setState({ date: '', workoutName: '', muscleGroup: '', reps: '', sets: '', notes: '' });
+    const newExercise = {
+      date: this.state.date,
+      workoutName: this.state.workoutName,
+      muscleGroup: this.state.muscleGroup,
+      reps: this.state.reps,
+      sets: this.state.sets,
+      notes: this.state.notes
+    };
 
+    fetch('/api/exercises', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newExercise)
+    })
+      .then(res => res.json())
+      .catch(err => console.error(err));
+    this.setState({ date: '', workoutName: '', muscleGroup: '', reps: '', sets: '', notes: '' }
+    );
   }
 
   render() {
@@ -71,7 +87,7 @@ export default class Form extends React.Component {
             </div>
             <div className="musclegroup-column column-half">
               <label className="muscle-group-label" htmlFor="muscle-group">
-                Muscle Group
+                Primary Muscle Group
                 <select className="muscle-group-select" name="muscle-group" required onChange={this.handleMuscleGroupChange}>
                   <option value="">Please select</option>
                   <option value="abdominals">abdominals</option>
@@ -97,13 +113,13 @@ export default class Form extends React.Component {
           <div className="row">
             <div className="rep-column column-half">
               <label htmlFor="reps">
-                Reps
+                Average Reps
                 <input required placeholder="# of Reps" className="form-control" name="reps" type="number" id="reps" onChange={this.handleRepChange} value={this.state.reps} />
               </label>
             </div>
             <div className="set-column column-half">
               <label className="set-label" htmlFor="sets">
-                Sets
+                Total Sets
                 <input required placeholder="# of Sets" className="form-control" name="sets" type="number" id="sets" onChange={this.handleSetChange} value={this.state.sets} />
               </label>
             </div>
@@ -111,8 +127,8 @@ export default class Form extends React.Component {
           <div className="row">
             <div className="column-full-date">
               <label className="notes-label" htmlFor="notes">
-                Notes
-                <input placeholder="Additional notes" className="notes-control form-control" name="notes" type="text" id="notes" onChange={this.handleNoteChange} value={this.state.notes} />
+                Details
+                <input placeholder="Workout details or notes" className="notes-control form-control" name="notes" type="text" id="notes" onChange={this.handleNoteChange} value={this.state.notes} />
               </label>
             </div>
           </div>

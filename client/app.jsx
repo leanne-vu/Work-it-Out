@@ -3,6 +3,7 @@ import Home from './pages/home';
 import Form from './pages/form';
 import Header from './components/header';
 import { parseRoute } from './lib';
+import DrawerModal from './components/menu';
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -37,6 +38,7 @@ export default class App extends React.Component {
   render() {
     return (
       <>
+        <DrawerModal/>
         <Header />
         {this.renderPage()}
       </>

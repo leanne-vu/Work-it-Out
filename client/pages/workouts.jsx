@@ -1,11 +1,15 @@
 import React from 'react';
 import Dropdown from '../components/dropdown';
-
+import WorkoutList from '../components/workoutList';
 export default class Workouts extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { month: '' };
+    this.state = {
+      month: '',
+      workouts: []
+    };
     this.handleClickItem = this.handleClickItem.bind(this);
+    this.monthPick = this.monthPick.bind(this);
 
   }
 
@@ -13,40 +17,30 @@ export default class Workouts extends React.Component {
     this.setState({ month: event.target.value });
   }
 
-  render() {
-    const { month } = this.state;
+  componentDidMount() {
 
-    if (month === '') {
-      return (
-        <div>
-          <Dropdown handleClickItem={this.handleClickItem} />
-        </div>
-      );
-    }
-    if (month === 'january') {
-      return (
-        <div className="form-container">
-          <Dropdown handleClickItem={this.handleClickItem} />
-          <p>hello1</p>
-        </div>
-      );
-    } if (month === 'february') {
-      return (
-        <div className="form-container">
-          <Dropdown handleClickItem={this.handleClickItem} />
-          <p>hello2</p>
-        </div>
-      );
-    }
+    fetch('/api/workouts')
+      .then(response => response.json())
+      .then(data => this.setState({ workouts: data }))
+      .catch(err => console.error(err));
+
+  }
+
+  monthPick() {
+    const correctMonth = this.state.month;
+    return (
+      this.state.workouts.filter(x => x.Date.split('-')[1] === correctMonth)
+    );
+  }
+
+  render() {
+
+    return (
+      <div>
+        <Dropdown handleClickItem={this.handleClickItem} />  {/* Sets state month to desired montht i.e. january  */}
+        <WorkoutList workouts={this.monthPick} />
+      </div>
+    );
+
   }
 }
-//   fetch('/api/exercises', {
-//     method: 'POST',
-//     headers: { 'Content-Type': 'application/json' },
-//     body: JSON.stringify(newExercise)
-//   })
-//     .then(res => res.json())
-//     .catch(err => console.error(err));
-//   this.setState({ date: '', workoutName: '', muscleGroup: '', reps: '', sets: '', notes: '' }
-//   );
-// }

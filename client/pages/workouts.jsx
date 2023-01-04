@@ -34,13 +34,20 @@ export default class Workouts extends React.Component {
   }
 
   render() {
-
-    return (
-      <div>
-        <Dropdown handleClickItem={this.handleClickItem} />  {/* Sets state month to desired montht i.e. january  */}
-        <WorkoutList workouts={this.monthPick} />
-      </div>
-    );
-
+    if (this.monthPick().length > 0) {
+      return (
+        <div>
+          <Dropdown handleClickItem={this.handleClickItem} />  {/* Sets state month to desired montht i.e. january  */}
+          <WorkoutList workouts={this.monthPick()} />
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <Dropdown handleClickItem={this.handleClickItem} />
+          <h2 className="no-workout">There are no workouts to display</h2>
+        </div>
+      );
+    }
   }
 }

@@ -27,7 +27,6 @@ app.get('/api/exercises/:WorkoutID', (req, res, next) => {
   const params = [req.params.WorkoutID];
   db.query(sql, params)
     .then(result => {
-      // console.log(result.rows);
       res.status(201).json(result.rows);
     })
     .catch(err => { next(err); });

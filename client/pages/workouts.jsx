@@ -7,11 +7,14 @@ export default class Workouts extends React.Component {
     this.state = {
       month: '',
       workouts: [],
-      details: []
+      details: [],
+      isClicked: false
     };
     this.handleClickItem = this.handleClickItem.bind(this);
     this.monthPick = this.monthPick.bind(this);
     this.datePick = this.datePick.bind(this);
+    this.details = this.details.bind(this);
+    this.exit = this.exit.bind(this);
 
   }
 
@@ -38,16 +41,56 @@ export default class Workouts extends React.Component {
   datePick(event, WorkoutID) {
     fetch(`/api/exercises/${WorkoutID}`)
       .then(response => response.json())
-      .then(data => this.setState({ details: data }))
+      .then(data => this.setState({ details: data, isClicked: true }))
       .catch(err => console.error(err));
   }
 
+  exit() {
+    this.setState({ isClicked: false });
+  }
+
+  details() {
+    const currentDetails = this.state.details[0];
+    const finalPick = this.state.workouts.find(x => x.WorkoutID === currentDetails.WorkoutID);
+    const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+    const dateString = new Date(finalPick.Date).toLocaleDateString('en-US', options);
+    return (
+      <div className='overlay'>
+        <div>
+          <div className='details-menu'>
+            <div className='details-title'>
+              <h1 className='details-date'>{dateString}</h1>
+              <i onClick={this.exit} className="fa-solid fa-person-running" />
+            </div>
+            <h2 className='details-name'>{currentDetails.WorkoutName}</h2>
+            <h3 className='details-group'>Primary Muscle Group: {currentDetails.MuscleGroup}</h3>
+            <div className="details-numbers">
+              <h4 className='details-sets'>Total Sets: {currentDetails.Sets}</h4>
+              <h4 className='details-reps'>Average Reps: {currentDetails.Reps}</h4>
+            </div>
+            <h4 className='details-notes'>Notes:</h4>
+            <h4 className='real-notes'>{currentDetails.Notes}</h4>
+            <i className="fa-solid fa-pen-to-square" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   render() {
-    if (this.monthPick().length > 0) {
+    if (this.monthPick().length > 0 && this.state.isClicked === true) {
       return (
         <div>
-          <Dropdown handleClickItem={this.handleClickItem} />  {/* Sets state month to desired montht i.e. january  */}
-          <WorkoutList datePick= {this.datePick} workouts={this.monthPick()} />
+          <Dropdown handleClickItem={this.handleClickItem} />  {/* Sets state month to desired month i.e. january  */}
+          <WorkoutList /* details={this.details} */ datePick= {this.datePick} workouts={this.monthPick()} />
+          {this.details()}
+        </div>
+      );
+    } if (this.monthPick().length > 0) {
+      return (
+        <div>
+          <Dropdown handleClickItem={this.handleClickItem} />  {/* Sets state month to desired month i.e. january  */}
+          <WorkoutList /* details={this.details} */ datePick={this.datePick} workouts={this.monthPick()} />
         </div>
       );
     } else {

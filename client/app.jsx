@@ -3,6 +3,8 @@ import Home from './pages/home';
 import Form from './pages/form';
 import Header from './components/header';
 import { parseRoute } from './lib';
+import DrawerModal from './components/menu';
+import Workouts from './pages/workouts';
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -32,11 +34,15 @@ export default class App extends React.Component {
     if (route.path === 'form') {
       return <Form/>;
     }
+    if (route.path === 'workouts') {
+      return <Workouts/>;
+    }
   }
 
   render() {
     return (
       <>
+        <DrawerModal/>
         <Header />
         {this.renderPage()}
       </>

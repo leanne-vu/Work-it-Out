@@ -25,6 +25,10 @@
     left: 6.3em;
   }
 
+  .list {
+    text-align: center;
+  }
+
   .workoutname-column,
   .rep-column {
     text-align: left;

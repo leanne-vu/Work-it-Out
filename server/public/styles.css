@@ -78,3 +78,160 @@ select {
   width: 150px;
   height: 40px;
 }
+
+.bar {
+  cursor: pointer;
+  font-size: 30px;
+  position: absolute;
+  top: 10px;
+  color: white;
+  left: 20px;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.overlay {
+  background-color: rgb(0 0 0 / 30%);
+  min-height: 100vh;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.menu {
+  position: relative;
+  width: 20%;
+  min-height: 100vh;
+  background-color: #8d99ae;
+  color: white;
+}
+
+.list {
+  margin-left: -30px;
+  font-size: 18px;
+  padding-top: 40px;
+  line-height: 50px;
+}
+
+.menu-but,
+.menu-but:hover {
+  color: white;
+  text-decoration: none;
+}
+
+.month-menu {
+  margin: 3%;
+}
+
+.no-workout {
+  height: 1000px;
+  width: 500px;
+  position: absolute;
+  left: 50%;
+  margin-left: -200px;
+  top: 50%;
+  margin-top: -50px;
+}
+
+.workout-dates {
+  float: left;
+  width: 200px;
+  height: 120px;
+  list-style-type: none;
+  border: 15px solid #2b2d42;
+  padding-left: 2px;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+.slash-dates {
+  position: relative;
+  left: 15%;
+  top: 25%;
+  text-decoration: none;
+  color: black;
+  font-size: 18pt;
+  border: none;
+  background-color: white;
+}
+
+.workout-dates:hover,
+.workout-dates:focus {
+  box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
+  transform: translateY(-0.25em);
+}
+
+.details-menu {
+  padding-top: 20px;
+  height: 400px;
+  width: 400px;
+  position: absolute;
+  left: 50%;
+  margin-left: -200px;
+  top: 25%;
+  background-color: white;
+  border: 2px black solid;
+  border-radius: 4px;
+  color: #2b2d42;
+}
+
+.details-date,
+.details-name,
+.details-group {
+  text-align: center;
+  line-height: 2em;
+}
+
+.details-date {
+  background-color: #2b2d42;
+  margin-top: -20px;
+  color: white;
+  letter-spacing: 3px;
+}
+
+.details-numbers {
+  margin-top: 15px;
+  display: flex;
+}
+
+.details-sets {
+  padding-left: 3em;
+  font-size: 13pt;
+}
+
+.details-reps {
+  padding-left: 4em;
+  font-size: 13pt;
+}
+
+.fa-person-running {
+  position: absolute;
+  top: 15px;
+  right: 10px;
+  color: white;
+  font-size: 20pt;
+}
+
+.fa-pen-to-square {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  font-size: 20pt;
+}
+
+.fa-person-running:hover,
+.fa-pen-to-square:hover {
+  cursor: pointer;
+}
+
+.details-notes,
+.real-notes {
+  margin-top: 5px;
+  font-size: 13pt;
+  text-align: center;
+}

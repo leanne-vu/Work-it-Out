@@ -14,6 +14,25 @@ const app = express();
 app.use(express.json());
 app.use(staticMiddleware);
 
+app.get('/api/exercises/:WorkoutID', (req, res, next) => {
+  const WorkoutID = Number(req.params.WorkoutID);
+  if (!Number.isInteger(WorkoutID) || WorkoutID < 1) {
+    throw new ClientError(400, 'WorkoutID must be a positive integer');
+  }
+  const sql = `
+  select *
+  from "Exercises"
+  where "WorkoutID" = $1
+  `;
+  const params = [req.params.WorkoutID];
+  db.query(sql, params)
+    .then(result => {
+      // console.log(result.rows);
+      res.status(201).json(result.rows);
+    })
+    .catch(err => { next(err); });
+});
+
 app.get('/api/workouts', (req, res, next) => {
   const sql = `
 select *

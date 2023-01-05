@@ -6,10 +6,12 @@ export default class Workouts extends React.Component {
     super(props);
     this.state = {
       month: '',
-      workouts: []
+      workouts: [],
+      details: []
     };
     this.handleClickItem = this.handleClickItem.bind(this);
     this.monthPick = this.monthPick.bind(this);
+    this.datePick = this.datePick.bind(this);
 
   }
 
@@ -33,12 +35,19 @@ export default class Workouts extends React.Component {
     );
   }
 
+  datePick(event, WorkoutID) {
+    fetch(`/api/exercises/${WorkoutID}`)
+      .then(response => response.json())
+      .then(data => this.setState({ details: data }))
+      .catch(err => console.error(err));
+  }
+
   render() {
     if (this.monthPick().length > 0) {
       return (
         <div>
           <Dropdown handleClickItem={this.handleClickItem} />  {/* Sets state month to desired montht i.e. january  */}
-          <WorkoutList workouts={this.monthPick()} />
+          <WorkoutList datePick= {this.datePick} workouts={this.monthPick()} />
         </div>
       );
     } else {

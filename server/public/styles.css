@@ -151,7 +151,17 @@ select {
 
 .slash-dates {
   position: relative;
-  text-align: center;
+  left: 15%;
   top: 25%;
+  text-decoration: none;
   color: black;
+  font-size: 18pt;
+  border: none;
+  background-color: white;
+}
+
+.workout-dates:hover,
+.workout-dates:focus {
+  box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
+  transform: translateY(-0.25em);
 }

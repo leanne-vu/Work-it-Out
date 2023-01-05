@@ -81,16 +81,16 @@ export default class Workouts extends React.Component {
     if (this.monthPick().length > 0 && this.state.isClicked === true) {
       return (
         <div>
-          <Dropdown handleClickItem={this.handleClickItem} />  {/* Sets state month to desired month i.e. january  */}
-          <WorkoutList /* details={this.details} */ datePick= {this.datePick} workouts={this.monthPick()} />
+          <Dropdown handleClickItem={this.handleClickItem} />
+          <WorkoutList datePick= {this.datePick} workouts={this.monthPick()} />
           {this.details()}
         </div>
       );
     } if (this.monthPick().length > 0) {
       return (
         <div>
-          <Dropdown handleClickItem={this.handleClickItem} />  {/* Sets state month to desired month i.e. january  */}
-          <WorkoutList /* details={this.details} */ datePick={this.datePick} workouts={this.monthPick()} />
+          <Dropdown handleClickItem={this.handleClickItem} />
+          <WorkoutList datePick={this.datePick} workouts={this.monthPick()} />
         </div>
       );
     } else {

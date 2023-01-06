@@ -10,14 +10,12 @@ export default class EditForm extends React.Component {
     this.handleRepChange = this.handleRepChange.bind(this);
     this.handleSetChange = this.handleSetChange.bind(this);
     this.handleNoteChange = this.handleNoteChange.bind(this);
-    this.state = { date: '', workoutName: '', muscleGroup: '', reps: '', sets: '', notes: '' };
+    this.state = { workoutName: '', muscleGroup: '', reps: '', sets: '', notes: '' };
   }
 
   componentDidMount() {
-    const workouts = this.props.workouts.x;
     const details = this.props.details.y[0];
-    const finalPick = workouts.find(x => x.WorkoutID === details.WorkoutID);
-    this.setState({ date: finalPick.Date, workoutName: details.WorkoutName, muscleGroup: details.MuscleGroup, reps: details.Reps, sets: details.Sets, notes: details.Notes });
+    this.setState({ workoutName: details.WorkoutName, muscleGroup: details.MuscleGroup, reps: details.Reps, sets: details.Sets, notes: details.Notes });
   }
 
   handleDateChange(event) {
@@ -46,23 +44,21 @@ export default class EditForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const newExercise = {
-      date: this.state.date,
+    const Edit = {
       workoutName: this.state.workoutName,
       muscleGroup: this.state.muscleGroup,
       reps: this.state.reps,
       sets: this.state.sets,
       notes: this.state.notes
     };
-
-    fetch('/api/exercises', {
-      method: 'PATCH',
+    fetch(`/api/exercises/${this.props.details.y[0].WorkoutID}`, {
+      method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newExercise)
+      body: JSON.stringify(Edit)
     })
       .then(res => res.json())
       .catch(err => console.error(err));
-    this.setState({ date: '', workoutName: '', muscleGroup: '', reps: '', sets: '', notes: '' }
+    this.setState({ workoutName: '', muscleGroup: '', reps: '', sets: '', notes: '' }
     );
   }
 

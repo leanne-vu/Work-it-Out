@@ -47,6 +47,30 @@ ORDER BY "Date"
     });
 });
 
+app.put('/api/exercises/:WorkoutID', (req, res, next) => {
+  const { workoutName, muscleGroup, reps, sets, notes } = req.body;
+  const WorkoutID = Number(req.params.WorkoutID);
+  if (!Number.isInteger(WorkoutID) || WorkoutID < 1) {
+    throw new ClientError(400, 'WorkoutID must be a positive integer');
+  }
+  const sql = `
+  update "Exercises"
+  set "WorkoutName" = $1,
+      "MuscleGroup" = $2,
+      "Sets" = $3,
+      "Reps" = $4,
+      "Notes" = $5
+  where "WorkoutID" = $6
+  `;
+  const params = [workoutName, muscleGroup, sets, reps, notes, req.params.WorkoutID];
+
+  db.query(sql, params)
+    .then(result => {
+      res.status(201).json(result.rows);
+    })
+    .catch(err => { next(err); });
+});
+
 app.post('/api/exercises', (req, res, next) => {
 
   const { date, workoutName, muscleGroup, reps, sets, notes } = req.body;

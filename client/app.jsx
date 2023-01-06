@@ -5,6 +5,7 @@ import Header from './components/header';
 import { parseRoute } from './lib';
 import DrawerModal from './components/menu';
 import Workouts from './pages/workouts';
+import EditForm from './pages/editform';
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -36,6 +37,9 @@ export default class App extends React.Component {
     }
     if (route.path === 'workouts') {
       return <Workouts/>;
+    }
+    if (route.path === 'editform') {
+      return <EditForm/>;
     }
   }
 

@@ -13,6 +13,13 @@ export default class EditForm extends React.Component {
     this.state = { date: '', workoutName: '', muscleGroup: '', reps: '', sets: '', notes: '' };
   }
 
+  componentDidMount() {
+    const workouts = this.props.workouts.x;
+    const details = this.props.details.y[0];
+    const finalPick = workouts.find(x => x.WorkoutID === details.WorkoutID);
+    this.setState({ date: finalPick.Date, workoutName: details.WorkoutName, muscleGroup: details.MuscleGroup, reps: details.Reps, sets: details.Sets, notes: details.Notes });
+  }
+
   handleDateChange(event) {
     this.setState({ date: event.target.value });
   }
@@ -60,24 +67,21 @@ export default class EditForm extends React.Component {
   }
 
   render() {
+    const workouts = this.props.workouts.x;
+    const details = this.props.details.y[0];
+    const finalPick = workouts.find(x => x.WorkoutID === details.WorkoutID);
+    const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+    const dateString = new Date(finalPick.Date).toLocaleDateString('en-US', options);
     return (
       <div className="form-container">
         <div className="row">
           <div className="col-2" />
           <div className="col-8">
-            <h1 className="form-header">Edit
+            <h1 className="form-header">{dateString}
             </h1>
           </div>
         </div>
         <form onSubmit={this.handleSubmit}>
-          <div className="row">
-            <div className="column-full-date">
-              <label htmlFor="workout-date">
-                Date
-                <input required className="form-control" name="date" type="date" id="workout-date" onChange={this.handleDateChange} value={this.state.date} />
-              </label>
-            </div>
-          </div>
           <div className="row">
             <div className="workoutname-column column-half">
               <label htmlFor="workout-name">
@@ -88,7 +92,7 @@ export default class EditForm extends React.Component {
             <div className="musclegroup-column column-half">
               <label className="muscle-group-label" htmlFor="muscle-group">
                 Primary Muscle Group
-                <select className="muscle-group-select" name="muscle-group" required onChange={this.handleMuscleGroupChange}>
+                <select className="muscle-group-select" name="muscle-group" required onChange={this.handleMuscleGroupChange} value={this.state.muscleGroup}>
                   <option value="">Please select</option>
                   <option value="abdominals">abdominals</option>
                   <option value="abductors">abductors</option>

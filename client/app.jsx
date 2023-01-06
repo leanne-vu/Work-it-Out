@@ -10,8 +10,11 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      route: parseRoute(window.location.hash)
+      route: parseRoute(window.location.hash),
+      workouts: '',
+      details: ''
     };
+    this.updateInfo = this.updateInfo.bind(this);
   }
 
   componentDidMount() {
@@ -26,6 +29,10 @@ export default class App extends React.Component {
      */
   }
 
+  updateInfo(x, y) {
+    this.setState({ workouts: { x }, details: { y } });
+  }
+
   renderPage() {
 
     const { route } = this.state;
@@ -36,10 +43,10 @@ export default class App extends React.Component {
       return <Form/>;
     }
     if (route.path === 'workouts') {
-      return <Workouts/>;
+      return <Workouts updateInfo={this.updateInfo}/>;
     }
     if (route.path === 'editform') {
-      return <EditForm/>;
+      return <EditForm workouts={this.state.workouts} details={this.state.details}/>;
     }
   }
 

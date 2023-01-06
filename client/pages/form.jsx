@@ -88,7 +88,7 @@ export default class Form extends React.Component {
             <div className="musclegroup-column column-half">
               <label className="muscle-group-label" htmlFor="muscle-group">
                 Primary Muscle Group
-                <select className="muscle-group-select" name="muscle-group" required onChange={this.handleMuscleGroupChange}>
+                <select className="muscle-group-select" name="muscle-group" value={this.state.muscleGroup} required onChange={this.handleMuscleGroupChange}>
                   <option value="">Please select</option>
                   <option value="abdominals">abdominals</option>
                   <option value="abductors">abductors</option>

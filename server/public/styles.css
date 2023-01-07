@@ -38,6 +38,10 @@ header {
   text-decoration: none;
 }
 
+.workout-but:hover {
+  color: white;
+}
+
 .form-header {
   background-color: #8d99ae;
   font-family: Lora, serif;

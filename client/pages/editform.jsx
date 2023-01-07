@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class Form extends React.Component {
+export default class EditForm extends React.Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -10,7 +10,12 @@ export default class Form extends React.Component {
     this.handleRepChange = this.handleRepChange.bind(this);
     this.handleSetChange = this.handleSetChange.bind(this);
     this.handleNoteChange = this.handleNoteChange.bind(this);
-    this.state = { date: '', workoutName: '', muscleGroup: '', reps: '', sets: '', notes: '' };
+    this.state = { workoutName: '', muscleGroup: '', reps: '', sets: '', notes: '' };
+  }
+
+  componentDidMount() {
+    const details = this.props.details.y[0];
+    this.setState({ workoutName: details.WorkoutName, muscleGroup: details.MuscleGroup, reps: details.Reps, sets: details.Sets, notes: details.Notes });
   }
 
   handleDateChange(event) {
@@ -39,45 +44,41 @@ export default class Form extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const newExercise = {
-      date: this.state.date,
+    const Edit = {
       workoutName: this.state.workoutName,
       muscleGroup: this.state.muscleGroup,
       reps: this.state.reps,
       sets: this.state.sets,
       notes: this.state.notes
     };
-
-    fetch('/api/exercises', {
-      method: 'POST',
+    fetch(`/api/exercises/${this.props.details.y[0].WorkoutID}`, {
+      method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newExercise)
+      body: JSON.stringify(Edit)
     })
       .then(res => res.json())
       .catch(err => console.error(err));
-    this.setState({ date: '', workoutName: '', muscleGroup: '', reps: '', sets: '', notes: '' }
+    this.setState({ workoutName: '', muscleGroup: '', reps: '', sets: '', notes: '' }
     );
+    window.location.hash = '#workouts';
   }
 
   render() {
+    const workouts = this.props.workouts.x;
+    const details = this.props.details.y[0];
+    const finalPick = workouts.find(x => x.WorkoutID === details.WorkoutID);
+    const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+    const dateString = new Date(finalPick.Date).toLocaleDateString('en-US', options);
     return (
       <div className="form-container">
         <div className="row">
           <div className="col-2" />
           <div className="col-8">
-            <h1 className="form-header">Add a Workout
+            <h1 className="form-header">{dateString}
             </h1>
           </div>
         </div>
         <form onSubmit={this.handleSubmit}>
-          <div className="row">
-            <div className="column-full-date">
-              <label htmlFor="workout-date">
-                Date
-                <input required className="form-control" name="date" type="date" id="workout-date" onChange={this.handleDateChange} value={this.state.date} />
-              </label>
-            </div>
-          </div>
           <div className="row">
             <div className="workoutname-column column-half">
               <label htmlFor="workout-name">
@@ -88,7 +89,7 @@ export default class Form extends React.Component {
             <div className="musclegroup-column column-half">
               <label className="muscle-group-label" htmlFor="muscle-group">
                 Primary Muscle Group
-                <select className="muscle-group-select" name="muscle-group" value={this.state.muscleGroup} required onChange={this.handleMuscleGroupChange}>
+                <select className="muscle-group-select" name="muscle-group" required onChange={this.handleMuscleGroupChange} value={this.state.muscleGroup}>
                   <option value="">Please select</option>
                   <option value="abdominals">abdominals</option>
                   <option value="abductors">abductors</option>
@@ -132,7 +133,7 @@ export default class Form extends React.Component {
               </label>
             </div>
           </div>
-          <button className="form-submit-but" type="submit">Add a workout</button>
+          <button className="form-submit-but" type="submit">Edit</button>
         </form>
       </div>
     );

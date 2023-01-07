@@ -15,6 +15,7 @@ export default class Workouts extends React.Component {
     this.datePick = this.datePick.bind(this);
     this.details = this.details.bind(this);
     this.exit = this.exit.bind(this);
+    this.passState = this.passState.bind(this);
 
   }
 
@@ -49,6 +50,12 @@ export default class Workouts extends React.Component {
     this.setState({ isClicked: false });
   }
 
+  passState() {
+    const details = this.state.details;
+    const workouts = this.state.workouts;
+    return { details, workouts };
+  }
+
   details() {
     const currentDetails = this.state.details[0];
     const finalPick = this.state.workouts.find(x => x.WorkoutID === currentDetails.WorkoutID);
@@ -70,7 +77,7 @@ export default class Workouts extends React.Component {
             </div>
             <h4 className='details-notes'>Notes:</h4>
             <h4 className='real-notes'>{currentDetails.Notes}</h4>
-            <i className="fa-solid fa-pen-to-square" />
+            <a onClick={e => this.props.updateInfo(this.state.workouts, this.state.details)} href="#editform"><i className="fa-solid fa-pen-to-square" /></a>
           </div>
         </div>
       </div>

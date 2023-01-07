@@ -60,6 +60,7 @@ export default class EditForm extends React.Component {
       .catch(err => console.error(err));
     this.setState({ workoutName: '', muscleGroup: '', reps: '', sets: '', notes: '' }
     );
+    window.location.hash = '#workouts';
   }
 
   render() {

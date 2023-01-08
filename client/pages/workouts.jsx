@@ -77,6 +77,7 @@ export default class Workouts extends React.Component {
             </div>
             <h4 className='details-notes'>Notes:</h4>
             <h4 className='real-notes'>{currentDetails.Notes}</h4>
+            <i className="fa-solid fa-trash-can" />
             <a onClick={e => this.props.updateInfo(this.state.workouts, this.state.details)} href="#editform"><i className="fa-solid fa-pen-to-square" /></a>
           </div>
         </div>

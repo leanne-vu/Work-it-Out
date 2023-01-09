@@ -15,7 +15,6 @@ export default class Workouts extends React.Component {
     this.datePick = this.datePick.bind(this);
     this.details = this.details.bind(this);
     this.exit = this.exit.bind(this);
-    this.passState = this.passState.bind(this);
 
   }
 
@@ -48,12 +47,6 @@ export default class Workouts extends React.Component {
 
   exit() {
     this.setState({ isClicked: false });
-  }
-
-  passState() {
-    const details = this.state.details;
-    const workouts = this.state.workouts;
-    return { details, workouts };
   }
 
   details() {

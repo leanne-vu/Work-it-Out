@@ -6,7 +6,7 @@ export default class Dropdown extends React.Component {
     return (
       <div className="month-menu">
         <h3>Select Month</h3>
-        <select name="links" /* value={this.state.month} */ onChange={handleClickItem}>
+        <select name="links" onChange={handleClickItem}>
           <option value=''>Please Select</option>
           <option value="01">January</option>
           <option value="02">February</option>

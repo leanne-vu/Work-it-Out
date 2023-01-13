@@ -15,6 +15,7 @@ export default class Workouts extends React.Component {
     this.datePick = this.datePick.bind(this);
     this.details = this.details.bind(this);
     this.exit = this.exit.bind(this);
+    this.deleteExercise = this.exit.bind(this);
 
   }
 
@@ -49,6 +50,16 @@ export default class Workouts extends React.Component {
     this.setState({ isClicked: false });
   }
 
+  deleteExercise(event, WorkoutID) {
+    fetch(`/api/exercises/${this.state.details.WorkoutID}`, {
+      method: 'DELETE'
+    })
+      .then(res => res.json())
+      .catch(err => console.error(err));
+    this.setState({ isClicked: false });
+    // window.location.hash = '#workouts';
+  }
+
   details() {
     const currentDetails = this.state.details[0];
     const finalPick = this.state.workouts.find(x => x.WorkoutID === currentDetails.WorkoutID);
@@ -70,7 +81,7 @@ export default class Workouts extends React.Component {
             </div>
             <h4 className='details-notes'>Notes:</h4>
             <h4 className='real-notes'>{currentDetails.Notes}</h4>
-            <i className="fa-solid fa-trash-can" />
+            <i onClick={this.deleteExercise} className="fa-solid fa-trash-can" />
             <a onClick={e => this.props.updateInfo(this.state.workouts, this.state.details)} href="#editform"><i className="fa-solid fa-pen-to-square" /></a>
           </div>
         </div>

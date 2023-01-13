@@ -7,9 +7,7 @@ function WorkoutList(props) {
         const workoutDates = new Date(x.Date).toLocaleDateString('en-US', options);
         return (
           <li className="workout-dates" key={x.WorkoutID}>
-            <button onClick={e => props.datePick(e, x.WorkoutID)}
-              // ; props.deleteExercise(e, x.WorkoutID); } }
-              key={x.WorkoutID} className="slash-dates">{workoutDates}</button>
+            <button onClick={e => props.datePick(e, x.WorkoutID)} key={x.WorkoutID} className="slash-dates">{workoutDates}</button>
           </li>
         );
       }) }

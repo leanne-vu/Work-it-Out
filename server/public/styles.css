@@ -226,10 +226,20 @@ select {
   right: 10px;
   bottom: 10px;
   font-size: 20pt;
+  color: #2b2d42;
+}
+
+.fa-trash-can {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  font-size: 20pt;
+  color: #2b2d42;
 }
 
 .fa-person-running:hover,
-.fa-pen-to-square:hover {
+.fa-pen-to-square:hover,
+.fa-trash-can:hover {
   cursor: pointer;
 }
 

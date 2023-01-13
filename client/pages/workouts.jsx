@@ -15,7 +15,7 @@ export default class Workouts extends React.Component {
     this.datePick = this.datePick.bind(this);
     this.details = this.details.bind(this);
     this.exit = this.exit.bind(this);
-    this.passState = this.passState.bind(this);
+    this.deleteExercise = this.deleteExercise.bind(this);
 
   }
 
@@ -50,10 +50,17 @@ export default class Workouts extends React.Component {
     this.setState({ isClicked: false });
   }
 
-  passState() {
-    const details = this.state.details;
-    const workouts = this.state.workouts;
-    return { details, workouts };
+  deleteExercise(WorkoutID) {
+    fetch(`/api/exercises/${this.state.details[0].WorkoutID}`, {
+      method: 'DELETE'
+    })
+      .then(res => res.json())
+      .catch(err => console.error(err));
+    this.setState({ isClicked: false });
+    fetch('/api/workouts')
+      .then(response => response.json())
+      .then(data => this.setState({ workouts: data }))
+      .catch(err => console.error(err));
   }
 
   details() {
@@ -77,6 +84,7 @@ export default class Workouts extends React.Component {
             </div>
             <h4 className='details-notes'>Notes:</h4>
             <h4 className='real-notes'>{currentDetails.Notes}</h4>
+            <i onClick={this.deleteExercise} className="fa-solid fa-trash-can" />
             <a onClick={e => this.props.updateInfo(this.state.workouts, this.state.details)} href="#editform"><i className="fa-solid fa-pen-to-square" /></a>
           </div>
         </div>

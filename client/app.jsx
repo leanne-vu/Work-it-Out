@@ -6,6 +6,7 @@ import { parseRoute } from './lib';
 import DrawerModal from './components/menu';
 import Workouts from './pages/workouts';
 import EditForm from './pages/editform';
+import Ideas from './pages/ideas';
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -47,6 +48,9 @@ export default class App extends React.Component {
     }
     if (route.path === 'editform') {
       return <EditForm workouts={this.state.workouts} details={this.state.details}/>;
+    }
+    if (route.path === 'ideas') {
+      return <Ideas />;
     }
   }
 

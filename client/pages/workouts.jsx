@@ -57,7 +57,10 @@ export default class Workouts extends React.Component {
       .then(res => res.json())
       .catch(err => console.error(err));
     this.setState({ isClicked: false });
-
+    fetch('/api/workouts')
+      .then(response => response.json())
+      .then(data => this.setState({ workouts: data }))
+      .catch(err => console.error(err));
   }
 
   details() {

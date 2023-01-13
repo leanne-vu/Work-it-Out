@@ -15,7 +15,7 @@ export default class Workouts extends React.Component {
     this.datePick = this.datePick.bind(this);
     this.details = this.details.bind(this);
     this.exit = this.exit.bind(this);
-    this.deleteExercise = this.exit.bind(this);
+    this.deleteExercise = this.deleteExercise.bind(this);
 
   }
 
@@ -50,14 +50,14 @@ export default class Workouts extends React.Component {
     this.setState({ isClicked: false });
   }
 
-  deleteExercise(event, WorkoutID) {
-    fetch(`/api/exercises/${this.state.details.WorkoutID}`, {
+  deleteExercise(WorkoutID) {
+    fetch(`/api/exercises/${this.state.details[0].WorkoutID}`, {
       method: 'DELETE'
     })
       .then(res => res.json())
       .catch(err => console.error(err));
     this.setState({ isClicked: false });
-    // window.location.hash = '#workouts';
+
   }
 
   details() {

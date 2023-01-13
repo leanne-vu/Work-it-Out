@@ -71,6 +71,32 @@ app.put('/api/exercises/:WorkoutID', (req, res, next) => {
     .catch(err => { next(err); });
 });
 
+app.delete('/api/exercises/:WorkoutID', (req, res, next) => {
+
+  const sql = `
+  delete
+  from "Exercises"
+  where "WorkoutID" = $1
+  `;
+  const params = [req.params.WorkoutID];
+  db.query(sql, params)
+    .then(result => {
+      res.status(201);
+    })
+    .then(data => {
+      const sql = `
+      delete
+      from "Workouts"
+      where "WorkoutID"= $1`;
+      db.query(sql, params)
+        .then(result => {
+          res.status(201);
+        })
+        .catch(err => { next(err); });
+    })
+    .catch(err => { next(err); });
+});
+
 app.post('/api/exercises', (req, res, next) => {
 
   const { date, workoutName, muscleGroup, reps, sets, notes } = req.body;

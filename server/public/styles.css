@@ -238,7 +238,8 @@ select {
 }
 
 .fa-person-running:hover,
-.fa-pen-to-square:hover {
+.fa-pen-to-square:hover,
+.fa-trash-can:hover {
   cursor: pointer;
 }
 

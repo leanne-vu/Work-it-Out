@@ -16,7 +16,10 @@ export default class Ideas extends React.Component {
   }
 
   handleClickItem(event) {
-    fetch('/api/ideas')
+    fetch('/api/ideas', {
+      header: ('https://api.api-ninjas.com/v1/exercises',
+      'Hh5CnkkdbOqNTMmwv/hdTg==M2w3lboMPCWzoTv0')
+    })
       .then(response => response.json())
       .then(data => this.setState({ workouts: data }))
       .catch(err => console.error(err));
@@ -24,7 +27,7 @@ export default class Ideas extends React.Component {
     // fetch('https://api.api-ninjas.com/v1/exercises', {
     //   method: 'GET',
     //   headers: {
-    //     'X-API-KEY': 'Hh5CnkkdbOqNTMmwv/hdTg==M2w3lboMPCWzoTv0',
+    //     'X-API-KEY': ,
     //     Accept: 'application/json',
     //     'Content-Type': 'application/json',
     //     'Access-Control-Allow-Origin': '*'

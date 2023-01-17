@@ -32,7 +32,7 @@ app.get('/api/exercises/:WorkoutID', (req, res, next) => {
     .catch(err => { next(err); });
 });
 
-app.get('/api/deas', (req, res, next) => {
+app.get('/api/ideas', (req, res, next) => {
 
 });
 app.get('/api/workouts', (req, res, next) => {

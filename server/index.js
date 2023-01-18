@@ -32,9 +32,25 @@ app.get('/api/exercises/:WorkoutID', (req, res, next) => {
     .catch(err => { next(err); });
 });
 
-app.get('/api/ideas', (req, res, next) => {
-
+app.get('/api/ideas', (req, res) => {
+  fetch('https://api.api-ninjas.com/v1/exercises', {
+    method: 'GET',
+    headers: {
+      'X-API-KEY': process.env.TOKEN_SECRET,
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    }
+  })
+    .then(result => {
+      result.json();
+    })
+    .then(data => { res.json(data); })
+    .catch(err => {
+      console.error(err);
+    });
 });
+
 app.get('/api/workouts', (req, res, next) => {
   const sql = `
 select *

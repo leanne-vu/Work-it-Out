@@ -16,28 +16,27 @@ export default class Ideas extends React.Component {
   }
 
   handleClickItem(event) {
-    fetch('/api/ideas', {
-      header: ('https://api.api-ninjas.com/v1/exercises',
-      'Hh5CnkkdbOqNTMmwv/hdTg==M2w3lboMPCWzoTv0')
-    })
+    fetch('/api/ideas')
       .then(response => response.json())
-      .then(data => this.setState({ workouts: data }))
+      .then(data => this.setState({ ideas: data }))
       .catch(err => console.error(err));
-
-    // fetch('https://api.api-ninjas.com/v1/exercises', {
-    //   method: 'GET',
-    //   headers: {
-    //     'X-API-KEY': ,
-    //     Accept: 'application/json',
-    //     'Content-Type': 'application/json',
-    //     'Access-Control-Allow-Origin': '*'
-    //   }
-    // })
-    //   .then(response => response.json())
-    //   .then(data => this.setState({ ideas: data }))
-    //   .catch(err => console.error(err));
-
   }
+  // {
+  //     header: ('https://api.api-ninjas.com/v1/exercises',
+  //     'Hh5CnkkdbOqNTMmwv/hdTg==M2w3lboMPCWzoTv0')
+  //   }
+  // fetch('https://api.api-ninjas.com/v1/exercises', {
+  //   method: 'GET',
+  //   headers: {
+  //     'X-API-KEY': ,
+  //     Accept: 'application/json',
+  //     'Content-Type': 'application/json',
+  //     'Access-Control-Allow-Origin': '*'
+  //   }
+  // })
+  //   .then(response => response.json())
+  //   .then(data => this.setState({ ideas: data }))
+  //   .catch(err => console.error(err));
 
   // componentDidMount() {
 
@@ -80,6 +79,7 @@ export default class Ideas extends React.Component {
   // }
 
   render() {
+    // console.log(this.state.ideas);
     return (
       <div>
         <div className="muscle-ideas">

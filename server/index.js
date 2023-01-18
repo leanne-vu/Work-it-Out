@@ -43,9 +43,12 @@ app.get('/api/ideas', (req, res) => {
     }
   })
     .then(result => {
-      result.json();
+      return result.json();
     })
-    .then(data => { res.json(data); })
+    .then(data => {
+      const hello = data;
+      res.status(201).json(hello);
+    })
     .catch(err => {
       console.error(err);
     });

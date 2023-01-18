@@ -21,31 +21,30 @@ export default class Ideas extends React.Component {
       .then(data => this.setState({ ideas: data }))
       .catch(err => console.error(err));
   }
-  // {
-  //     header: ('https://api.api-ninjas.com/v1/exercises',
-  //     'Hh5CnkkdbOqNTMmwv/hdTg==M2w3lboMPCWzoTv0')
-  //   }
-  // fetch('https://api.api-ninjas.com/v1/exercises', {
-  //   method: 'GET',
-  //   headers: {
-  //     'X-API-KEY': ,
-  //     Accept: 'application/json',
-  //     'Content-Type': 'application/json',
-  //     'Access-Control-Allow-Origin': '*'
-  //   }
-  // })
-  //   .then(response => response.json())
-  //   .then(data => this.setState({ ideas: data }))
-  //   .catch(err => console.error(err));
 
-  // componentDidMount() {
-
-  //   fetch('/api/workouts')
-  //     .then(response => response.json())
-  //     .then(data => this.setState({ workouts: data }))
-  //     .catch(err => console.error(err));
-
-  // }
+  componentDidMount() {
+    <div>
+      <div className="muscle-ideas">
+        <button className="generate" onClick={this.handleClickItem}>Generate Ideas!</button>
+      </div>
+      <div>
+        <ul>
+          {this.state.ideas.map(x => {
+            return (
+              <li className="workout-ideas" key={x.name}>
+                <div>
+                  <h1>Exercise: {x.name}</h1>
+                  <h3>Muscle: {x.muscle}</h3>
+                  <h3>Equipment: {x.equipment}</h3>
+                  <h3>Instructions:{x.instructions}</h3>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </div>;
+  }
 
   // monthPick() {
   //   const correctMonth = this.state.month;
@@ -79,7 +78,6 @@ export default class Ideas extends React.Component {
   // }
 
   render() {
-    // console.log(this.state.ideas);
     return (
       <div>
         <div className="muscle-ideas">
@@ -89,7 +87,14 @@ export default class Ideas extends React.Component {
           <ul>
             {this.state.ideas.map(x => {
               return (
-                <li className="workout-ideas" key={x.WorkoutID} />
+                <li className="workout-ideas" key={x.name}>
+                  <div>
+                    <h1 className="name-ideas">Exercise: {x.name}</h1>
+                    <h3 className="muscle-ideas">Muscle: {x.muscle}</h3>
+                    <h3 className="equipment-ideas">Equipment: {x.equipment}</h3>
+                    <h3 className="instructions-ideas">Instructions: {x.instructions}</h3>
+                  </div>
+                </li>
               );
             }) }
           </ul>

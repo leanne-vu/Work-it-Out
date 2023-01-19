@@ -32,8 +32,9 @@ app.get('/api/exercises/:WorkoutID', (req, res, next) => {
     .catch(err => { next(err); });
 });
 
-app.get('/api/ideas', (req, res) => {
-  fetch('https://api.api-ninjas.com/v1/exercises', {
+app.get('/api/ideas/:offset', (req, res) => {
+  const { offset } = req.params;
+  fetch(`https://api.api-ninjas.com/v1/exercises?offset=${offset}`, {
     method: 'GET',
     headers: {
       'X-API-KEY': process.env.TOKEN_SECRET,
@@ -46,12 +47,12 @@ app.get('/api/ideas', (req, res) => {
       return result.json();
     })
     .then(data => {
-      const hello = data;
-      res.status(201).json(hello);
+      res.status(201).json(data);
     })
     .catch(err => {
       console.error(err);
     });
+
 });
 
 app.get('/api/workouts', (req, res, next) => {

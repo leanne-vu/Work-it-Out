@@ -3,24 +3,25 @@ export default class Ideas extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      ideas: [] // details: [],
-      // isClicked: false
+      ideas: [],
+      offset: 0
     };
     this.handleClickItem = this.handleClickItem.bind(this);
-    // this.monthPick = this.monthPick.bind(this);
-    // this.datePick = this.datePick.bind(this);
-    // this.details = this.details.bind(this);
-    // this.exit = this.exit.bind(this);
-    // this.deleteExercise = this.deleteExercise.bind(this);
 
   }
 
   handleClickItem(event) {
-    fetch('/api/ideas')
+    fetch(`/api/ideas/${this.state.offset}`)
       .then(response => response.json())
       .then(data => this.setState({ ideas: data }))
       .catch(err => console.error(err));
+    this.setState({ offset: this.state.offset + 10 });
   }
+  // componentDidUpdate() {
+
+  //     if (this.state.offset > 0) {  }
+
+  // }
 
   componentDidMount() {
     <div>
@@ -46,51 +47,22 @@ export default class Ideas extends React.Component {
     </div>;
   }
 
-  // monthPick() {
-  //   const correctMonth = this.state.month;
-  //   return (
-  //     this.state.workouts.filter(x => x.Date.split('-')[1] === correctMonth)
-  //   );
-  // }
-
-  // datePick(event, WorkoutID) {
-  //   fetch(`/api/exercises/${WorkoutID}`)
-  //     .then(response => response.json())
-  //     .then(data => this.setState({ details: data, isClicked: true }))
-  //     .catch(err => console.error(err));
-  // }
-
-  // exit() {
-  //   this.setState({ isClicked: false });
-  // }
-
-  // deleteExercise(WorkoutID) {
-  //   fetch(`/api/exercises/${this.state.details[0].WorkoutID}`, {
-  //     method: 'DELETE'
-  //   })
-  //     .then(res => res.json())
-  //     .catch(err => console.error(err));
-  //   this.setState({ isClicked: false });
-  //   fetch('/api/workouts')
-  //     .then(response => response.json())
-  //     .then(data => this.setState({ workouts: data }))
-  //     .catch(err => console.error(err));
-  // }
-
   render() {
+
     return (
       <div>
         <div className="muscle-ideas">
           <button className="generate" onClick={this.handleClickItem}>Generate Ideas!</button>
         </div>
-        <div>
-          <ul>
+        <div className="idea-list">
+          <ul className="idea-ul">
             {this.state.ideas.map(x => {
               return (
                 <li className="workout-ideas" key={x.name}>
                   <div>
-                    <h1 className="name-ideas">Exercise: {x.name}</h1>
-                    <h3 className="muscle-ideas">Muscle: {x.muscle}</h3>
+                    <h1 className="name-ideas">{x.name} <i className="not-used-star fa-sharp fa-solid fa-star" />
+                    </h1>
+                    <h3 className="muscle-name-ideas">Muscle: {x.muscle}</h3>
                     <h3 className="equipment-ideas">Equipment: {x.equipment}</h3>
                     <h3 className="instructions-ideas">Instructions: {x.instructions}</h3>
                   </div>

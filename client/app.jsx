@@ -14,6 +14,7 @@ export default class App extends React.Component {
       route: parseRoute(window.location.hash),
       workouts: '',
       details: ''
+
     };
     this.updateInfo = this.updateInfo.bind(this);
   }
@@ -22,6 +23,7 @@ export default class App extends React.Component {
     window.addEventListener('hashchange', event => {
       const hello = parseRoute(window.location.hash);
       this.setState({ route: hello });
+
     });
     /**
      * Listen for hash change events on the window object
@@ -50,7 +52,8 @@ export default class App extends React.Component {
       return <EditForm workouts={this.state.workouts} details={this.state.details}/>;
     }
     if (route.path === 'ideas') {
-      return <Ideas />;
+      const offset = route.params.get('results');
+      return <Ideas offset={offset}/>;
     }
   }
 

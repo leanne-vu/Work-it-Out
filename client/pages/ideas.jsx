@@ -4,51 +4,48 @@ export default class Ideas extends React.Component {
     super(props);
     this.state = {
       ideas: [],
-      offset: 0
+      offset: 0,
+      isLoading: true
     };
     this.handleClickItem = this.handleClickItem.bind(this);
 
   }
 
   handleClickItem(event) {
+    const currentOffset = this.state.offset;
     fetch(`/api/ideas/${this.state.offset}`)
-      .then(response => response.json())
-      .then(data => this.setState({ ideas: data }))
+      .then(response => {
+        return response.json();
+      })
+      .then(data => this.setState({ ideas: data, offset: currentOffset + 10 }))
       .catch(err => console.error(err));
-    this.setState({ offset: this.state.offset + 10 });
+    window.location.hash = `#ideas?results=${this.state.offset}`;
   }
-  // componentDidUpdate() {
-
-  //     if (this.state.offset > 0) {  }
-
-  // }
 
   componentDidMount() {
-    <div>
-      <div className="muscle-ideas">
-        <button className="generate" onClick={this.handleClickItem}>Generate Ideas!</button>
-      </div>
-      <div>
-        <ul>
-          {this.state.ideas.map(x => {
-            return (
-              <li className="workout-ideas" key={x.name}>
-                <div>
-                  <h1>Exercise: {x.name}</h1>
-                  <h3>Muscle: {x.muscle}</h3>
-                  <h3>Equipment: {x.equipment}</h3>
-                  <h3>Instructions:{x.instructions}</h3>
-                </div>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-    </div>;
+    fetch(`/api/ideas/${this.state.offset}`)
+      .then(response => {
+        return response.json();
+      })
+      .then(data => this.setState({ ideas: data, isLoading: false }))
+      .catch(err => console.error(err));
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.offset !== prevProps.offset) {
+      fetch(`/api/ideas/${this.props.offset}`)
+        .then(response => {
+          return response.json();
+        })
+        .then(data => this.setState({ ideas: data }))
+        .catch(err => console.error(err));
+    }
   }
 
   render() {
-
+    if (this.state.isLoading) {
+      return;
+    }
     return (
       <div>
         <div className="muscle-ideas">
@@ -74,4 +71,5 @@ export default class Ideas extends React.Component {
       </div>
     );
   }
+
 }

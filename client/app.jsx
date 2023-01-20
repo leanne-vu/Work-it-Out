@@ -6,6 +6,7 @@ import { parseRoute } from './lib';
 import DrawerModal from './components/menu';
 import Workouts from './pages/workouts';
 import EditForm from './pages/editform';
+import Ideas from './pages/ideas';
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -13,6 +14,7 @@ export default class App extends React.Component {
       route: parseRoute(window.location.hash),
       workouts: '',
       details: ''
+
     };
     this.updateInfo = this.updateInfo.bind(this);
   }
@@ -21,6 +23,7 @@ export default class App extends React.Component {
     window.addEventListener('hashchange', event => {
       const hello = parseRoute(window.location.hash);
       this.setState({ route: hello });
+
     });
     /**
      * Listen for hash change events on the window object
@@ -47,6 +50,10 @@ export default class App extends React.Component {
     }
     if (route.path === 'editform') {
       return <EditForm workouts={this.state.workouts} details={this.state.details}/>;
+    }
+    if (route.path === 'ideas') {
+      const offset = route.params.get('results');
+      return <Ideas offset={offset}/>;
     }
   }
 

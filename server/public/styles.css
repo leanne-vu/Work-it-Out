@@ -153,6 +153,42 @@ select {
   margin-top: 10px;
 }
 
+.workout-ideas {
+  width: 100%;
+  height: auto;
+  list-style-type: none;
+  box-shadow: 0 24px 3px -23px #6f7980;
+  margin-top: 20px;
+  text-align: left;
+  padding-bottom: 10px;
+}
+
+.idea-ul {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.not-used-star {
+  color: lightgrey;
+  float: right;
+}
+
+.instructions-ideas {
+  font-size: 9pt;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+.name-ideas {
+  font-size: 20pt;
+  color: #fdd826;
+}
+
+.muscle-name-ideas,
+.equipment-ideas {
+  font-size: 15pt;
+}
+
 .slash-dates {
   position: relative;
   left: 15%;
@@ -164,8 +200,19 @@ select {
   background-color: white;
 }
 
+.generate {
+  background-color: #fdd826;
+  color: black;
+  border: none;
+  border-radius: 4px;
+  width: 140px;
+  height: 40px;
+  margin-top: 50px;
+}
+
 .workout-dates:hover,
-.workout-dates:focus {
+.workout-dates:focus,
+.generate:hover {
   box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
   transform: translateY(-0.25em);
 }
@@ -248,4 +295,9 @@ select {
   margin-top: 5px;
   font-size: 13pt;
   text-align: center;
+}
+
+.muscle-ideas {
+  display: flex;
+  justify-content: center;
 }

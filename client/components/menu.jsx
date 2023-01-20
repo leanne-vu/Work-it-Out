@@ -25,7 +25,7 @@ export default class DrawerModal extends React.Component {
               <ul className='list'>
                 <li onClick={this.handleClickItem}><a className="menu-but" href="#">Home</a></li>
                 <li onClick={this.handleClickItem}><a className="menu-but" href="#workouts">Workouts</a></li>
-                <li onClick={this.handleClickItem}><a className="menu-but" href="#">Ideas</a></li>
+                <li onClick={this.handleClickItem}><a className="menu-but" href="#ideas?results=0">Ideas</a></li>
                 <li onClick={this.handleClickItem}><a className="menu-but" href="#">Bookmarks</a></li>
                 <li onClick={this.handleClickItem}><a className="menu-but" href="#">Tracker</a></li>
               </ul>

@@ -32,6 +32,29 @@ app.get('/api/exercises/:WorkoutID', (req, res, next) => {
     .catch(err => { next(err); });
 });
 
+app.get('/api/ideas/:offset', (req, res) => {
+  const { offset } = req.params;
+  fetch(`https://api.api-ninjas.com/v1/exercises?offset=${offset}`, {
+    method: 'GET',
+    headers: {
+      'X-API-KEY': process.env.TOKEN_SECRET,
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    }
+  })
+    .then(result => {
+      return result.json();
+    })
+    .then(data => {
+      res.status(201).json(data);
+    })
+    .catch(err => {
+      console.error(err);
+    });
+
+});
+
 app.get('/api/workouts', (req, res, next) => {
   const sql = `
 select *

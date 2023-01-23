@@ -120,6 +120,11 @@ app.delete('/api/exercises/:WorkoutID', (req, res, next) => {
     .catch(err => { next(err); });
 });
 
+// }
+// app.post('/api/ideas', (req, res, next) => {
+//   console.log(req.body);
+// });
+
 app.post('/api/exercises', (req, res, next) => {
 
   const { date, workoutName, muscleGroup, reps, sets, notes } = req.body;

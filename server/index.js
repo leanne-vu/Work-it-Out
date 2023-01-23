@@ -120,10 +120,27 @@ app.delete('/api/exercises/:WorkoutID', (req, res, next) => {
     .catch(err => { next(err); });
 });
 
-// }
-// app.post('/api/ideas', (req, res, next) => {
-//   console.log(req.body);
-// });
+app.post('/api/ideas', (req, res, next) => {
+  const { name, muscle, equipment, instructions } = req.body;
+  const sql = `
+  insert into "Exercise Ideas" ("ExerciseName", "MuscleGroup", "Equipment", "Info" )
+  values ($1, $2, $3, $4)
+  returning *
+  `;
+  const params = [name, muscle, equipment, instructions];
+  db.query(sql, params)
+    .then(result => {
+      if (result.rows.length === 0) {
+        throw new ClientError(400, 'exercise already exists');
+      } else {
+        const [exercise] = result.rows;
+        res.status(201).json(exercise);
+      }
+    })
+    .catch(err => {
+      next(err);
+    });
+});
 
 app.post('/api/exercises', (req, res, next) => {
 
@@ -176,7 +193,6 @@ where "Date" = $1
               .catch(err => {
                 next(err);
               });
-            // }
           }
         }
         )

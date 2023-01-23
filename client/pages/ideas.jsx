@@ -46,12 +46,12 @@ export default class Ideas extends React.Component {
 
   exercisePick(exercise) {
     fetch('/api/ideas', {
-      method: 'POST'
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(exercise)
     })
-      .then(response => response.json())
-      .then(data => this.setState({ saved: data }))
+      .then(res => res.json())
       .catch(err => console.error(err));
-
   }
 
   render() {
@@ -69,7 +69,7 @@ export default class Ideas extends React.Component {
               return (
                 <li className="workout-ideas" key={x.name}>
                   <div>
-                    <h1 className="name-ideas">{x.name} <i onClick={this.exercisePick(this.state.ideas.find(item => item.name === x.name))}className="not-used-star fa-sharp fa-solid fa-star" />
+                    <h1 className="name-ideas">{x.name} <i onClick={e => this.exercisePick(this.state.ideas.find(item => item.name === x.name))}className="not-used-star fa-sharp fa-solid fa-star" />
                     </h1>
                     <h3 className="muscle-name-ideas">Muscle: {x.muscle}</h3>
                     <h3 className="equipment-ideas">Equipment: {x.equipment}</h3>

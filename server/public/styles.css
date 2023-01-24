@@ -173,6 +173,11 @@ select {
   float: right;
 }
 
+.used-star {
+  color: #fdd826;
+  float: right;
+}
+
 .instructions-ideas {
   font-size: 9pt;
   padding-left: 10%;

@@ -31,6 +31,7 @@ export default class Ideas extends React.Component {
       })
       .then(data => this.setState({ ideas: data, isLoading: false }))
       .catch(err => console.error(err));
+
   }
 
   componentDidUpdate(prevProps) {
@@ -42,6 +43,7 @@ export default class Ideas extends React.Component {
         .then(data => this.setState({ ideas: data }))
         .catch(err => console.error(err));
     }
+
   }
 
   exercisePick(exercise) {
@@ -52,7 +54,6 @@ export default class Ideas extends React.Component {
     })
       .then(res => res.json())
       .catch(err => console.error(err));
-
     fetch('/api/ideas')
       .then(response => {
         return response.json();

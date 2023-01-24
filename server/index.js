@@ -54,6 +54,20 @@ app.get('/api/ideas/:offset', (req, res) => {
     });
 
 });
+app.get('/api/ideas', (req, res, next) => {
+  const sql = `
+  select "ExerciseName"
+  from "Exercise Ideas"
+  `;
+  db.query(sql)
+    .then(result => {
+      res.status(201).json(result.rows);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
 app.get('/api/workouts', (req, res, next) => {
   const sql = `
 select *

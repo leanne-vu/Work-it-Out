@@ -52,6 +52,13 @@ export default class Ideas extends React.Component {
     })
       .then(res => res.json())
       .catch(err => console.error(err));
+
+    fetch('/api/ideas')
+      .then(response => {
+        return response.json();
+      })
+      .then(data => this.setState({ saved: data }))
+      .catch(err => console.error(err));
   }
 
   render() {

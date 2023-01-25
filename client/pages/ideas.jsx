@@ -11,7 +11,6 @@ export default class Ideas extends React.Component {
     this.handleClickItem = this.handleClickItem.bind(this);
     this.exercisePick = this.exercisePick.bind(this);
     this.diff = this.diff.bind(this);
-    this.same = this.same.bind(this);
   }
 
   handleClickItem(event) {
@@ -79,14 +78,6 @@ export default class Ideas extends React.Component {
     return difference;
   }
 
-  same() {
-    const same = this.state.ideas.filter(x => {
-      const hello = this.state.saved.map(x => x.ExerciseName);
-      return hello.includes(x.name);
-    });
-    return same;
-  }
-
   render() {
 
     if (this.state.isLoading) {
@@ -100,32 +91,32 @@ export default class Ideas extends React.Component {
         </div>
         <div className="idea-list">
           <ul className="idea-ul">
-            {/* {this.state.ideas.map(x => { */}
-            {this.diff().map(x => {
-              return (
-                <li className="workout-ideas" key={x.name}>
-                  <div>
-                    <h1 className="name-ideas">{x.name} <i onClick={e => this.exercisePick(this.state.ideas.find(item => item.name === x.name))}className="not-used-star fa-sharp fa-solid fa-star" />
-                    </h1>
-                    <h3 className="muscle-name-ideas">Muscle: {x.muscle}</h3>
-                    <h3 className="equipment-ideas">Equipment: {x.equipment}</h3>
-                    <h3 className="instructions-ideas">Instructions: {x.instructions}</h3>
-                  </div>
-                </li>
-              );
-            }) }
-            {this.same().map(x => {
-              return (
-                <li className="workout-ideas" key={x.name}>
-                  <div>
-                    <h1 className="name-ideas">{x.name} <i /* onClick={e => this.exercisePick(this.state.ideas.find(item => item.name === x.name))} */ className="used-star fa-sharp fa-solid fa-star" />
-                    </h1>
-                    <h3 className="muscle-name-ideas">Muscle: {x.muscle}</h3>
-                    <h3 className="equipment-ideas">Equipment: {x.equipment}</h3>
-                    <h3 className="instructions-ideas">Instructions: {x.instructions}</h3>
-                  </div>
-                </li>
-              );
+            {this.state.ideas.map(x => {
+              if (this.diff().includes(x)) {
+                return (
+                  <li className="workout-ideas" key={x.name}>
+                    <div>
+                      <h1 className="name-ideas">{x.name} <i onClick={e => this.exercisePick(this.state.ideas.find(item => item.name === x.name))}className="not-used-star fa-sharp fa-solid fa-star" />
+                      </h1>
+                      <h3 className="muscle-name-ideas">Muscle: {x.muscle}</h3>
+                      <h3 className="equipment-ideas">Equipment: {x.equipment}</h3>
+                      <h3 className="instructions-ideas">Instructions: {x.instructions}</h3>
+                    </div>
+                  </li>
+                );
+              } else {
+                return (
+                  <li className="workout-ideas" key={x.name}>
+                    <div>
+                      <h1 className="name-ideas">{x.name} <i /* onClick={e => this.exercisePick(this.state.ideas.find(item => item.name === x.name))} */ className="used-star fa-sharp fa-solid fa-star" />
+                      </h1>
+                      <h3 className="muscle-name-ideas">Muscle: {x.muscle}</h3>
+                      <h3 className="equipment-ideas">Equipment: {x.equipment}</h3>
+                      <h3 className="instructions-ideas">Instructions: {x.instructions}</h3>
+                    </div>
+                  </li>
+                );
+              }
             })}
           </ul>
         </div>

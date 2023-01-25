@@ -32,9 +32,10 @@ CREATE TABLE "public"."Exercises" (
 
 
 CREATE TABLE "public"."Exercise Ideas" (
-	"IdeaID" serial NOT NULL,
-	"ExerciseName" TEXT NOT NULL,
+	"IdeaID" serial NOT NULL UNIQUE,
+	"ExerciseName" TEXT NOT NULL UNIQUE,
 	"MuscleGroup" TEXT NOT NULL,
+  "Equipment" TEXT NOT NULL,
 	"Info" TEXT NOT NULL,
 	-- "UserID" integer NOT NULL,
 	CONSTRAINT "Exercise Ideas_pk" PRIMARY KEY ("IdeaID")

@@ -171,6 +171,13 @@ select {
 .not-used-star {
   color: lightgrey;
   float: right;
+  cursor: pointer;
+}
+
+.used-star {
+  color: #fdd826;
+  float: right;
+  cursor: pointer;
 }
 
 .instructions-ideas {
@@ -210,11 +217,31 @@ select {
   margin-top: 50px;
 }
 
+.bookmark-but {
+  background-color: #2b2d42;
+  color: white;
+  font-size: 16px;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  text-decoration: none;
+  width: 165px;
+  height: 40px;
+  margin-top: 50px;
+  margin-left: 20px;
+}
+
 .workout-dates:hover,
 .workout-dates:focus,
-.generate:hover {
+.generate:hover,
+.bookmark-but:hover {
   box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
   transform: translateY(-0.25em);
+}
+
+.bookmark-but:hover {
+  color: white;
 }
 
 .details-menu {

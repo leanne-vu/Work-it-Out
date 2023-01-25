@@ -7,6 +7,7 @@ import DrawerModal from './components/menu';
 import Workouts from './pages/workouts';
 import EditForm from './pages/editform';
 import Ideas from './pages/ideas';
+import Bookmarks from './pages/bookmarks';
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -54,6 +55,9 @@ export default class App extends React.Component {
     if (route.path === 'ideas') {
       const offset = route.params.get('results');
       return <Ideas offset={offset}/>;
+    }
+    if (route.path === 'bookmarks') {
+      return <Bookmarks />;
     }
   }
 

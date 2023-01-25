@@ -54,7 +54,33 @@ app.get('/api/ideas/:offset', (req, res) => {
     });
 
 });
-
+app.get('/api/ideas', (req, res, next) => {
+  const sql = `
+  select "ExerciseName"
+  from "Exercise Ideas"
+  `;
+  db.query(sql)
+    .then(result => {
+      res.status(201).json(result.rows);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+app.get('/api/bookmarks', (req, res, next) => {
+  const sql = `
+  select *
+  from "Exercise Ideas"
+  ORDER BY "IdeaID"
+  `;
+  db.query(sql)
+    .then(result => {
+      res.status(201).json(result.rows);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
 app.get('/api/workouts', (req, res, next) => {
   const sql = `
 select *
@@ -120,6 +146,40 @@ app.delete('/api/exercises/:WorkoutID', (req, res, next) => {
     .catch(err => { next(err); });
 });
 
+app.post('/api/ideas', (req, res, next) => {
+  const { name, muscle, equipment, instructions } = req.body;
+  const sql = `
+  select *
+  from "Exercise Ideas"
+  where "ExerciseName" = $1
+  `;
+  const params = [name];
+  db.query(sql, params)
+    .then(result => {
+      if (result.rows.length === 1) {
+        throw new ClientError(400, 'exercise already exists');
+      }
+    })
+    .then(data => {
+      const sql = `
+   insert into "Exercise Ideas" ("ExerciseName", "MuscleGroup", "Equipment", "Info" )
+   values ($1, $2, $3, $4)
+   returning * `;
+      const params = [name, muscle, equipment, instructions];
+      db.query(sql, params)
+        .then(result => {
+          const [exercise] = result.rows;
+          res.status(201).json(exercise);
+        })
+        .catch(err => {
+          next(err);
+        });
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
 app.post('/api/exercises', (req, res, next) => {
 
   const { date, workoutName, muscleGroup, reps, sets, notes } = req.body;
@@ -171,7 +231,6 @@ where "Date" = $1
               .catch(err => {
                 next(err);
               });
-            // }
           }
         }
         )

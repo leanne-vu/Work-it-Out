@@ -67,7 +67,20 @@ app.get('/api/ideas', (req, res, next) => {
       next(err);
     });
 });
-
+app.get('/api/bookmarks', (req, res, next) => {
+  const sql = `
+  select *
+  from "Exercise Ideas"
+  ORDER BY "IdeaID"
+  `;
+  db.query(sql)
+    .then(result => {
+      res.status(201).json(result.rows);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
 app.get('/api/workouts', (req, res, next) => {
   const sql = `
 select *

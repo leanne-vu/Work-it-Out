@@ -25,7 +25,7 @@ export default class Ideas extends React.Component {
   }
 
   componentDidMount() {
-    fetch(`/api/ideas/${this.state.offset}`)
+    fetch(`/api/ideas/${this.props.offset}`)
       .then(response => {
         return response.json();
       })

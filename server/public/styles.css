@@ -171,11 +171,13 @@ select {
 .not-used-star {
   color: lightgrey;
   float: right;
+  cursor: pointer;
 }
 
 .used-star {
   color: #fdd826;
   float: right;
+  cursor: pointer;
 }
 
 .instructions-ideas {

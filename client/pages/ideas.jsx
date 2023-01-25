@@ -96,6 +96,7 @@ export default class Ideas extends React.Component {
       <div>
         <div className="muscle-ideas">
           <button className="generate" onClick={this.handleClickItem}>Generate Ideas!</button>
+          <a href="#bookmarks" className="bookmark-but">View Bookmarks</a>
         </div>
         <div className="idea-list">
           <ul className="idea-ul">

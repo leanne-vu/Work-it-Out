@@ -146,6 +146,20 @@ app.delete('/api/exercises/:WorkoutID', (req, res, next) => {
     .catch(err => { next(err); });
 });
 
+app.delete('/api/ideas/:exercise', (req, res, next) => {
+  const sql = `
+  delete
+  from "Exercise Ideas"
+  where "ExerciseName" = $1
+  `;
+  const params = [req.params.exercise];
+  db.query(sql, params)
+    .then(result => {
+      res.status(201);
+    })
+    .catch(err => { next(err); });
+});
+
 app.post('/api/ideas', (req, res, next) => {
   const { name, muscle, equipment, instructions } = req.body;
   const sql = `

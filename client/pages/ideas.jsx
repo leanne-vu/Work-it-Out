@@ -79,8 +79,8 @@ export default class Ideas extends React.Component {
     return difference;
   }
 
-  deleteIdea(name) {
-    fetch(`/api/ideas/${name}`, {
+  deleteIdea(exercise) {
+    fetch(`/api/ideas/${exercise.name}`, {
       method: 'DELETE'
     })
       .then(res => res.json())

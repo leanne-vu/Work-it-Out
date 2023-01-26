@@ -5,7 +5,7 @@ export default class Bookmarks extends React.Component {
     this.state = {
       bookmarks: []
     };
-
+    this.deleteIdea = this.deleteIdea.bind(this);
   }
 
   componentDidMount() {
@@ -18,6 +18,18 @@ export default class Bookmarks extends React.Component {
 
   }
 
+  deleteIdea(exercise) {
+    fetch(`/api/ideas/${exercise.ExerciseName}`, {
+      method: 'DELETE'
+    })
+      .then(res => res.json())
+      .catch(err => console.error(err));
+    fetch('/api/bookmarks')
+      .then(response => response.json())
+      .then(data => this.setState({ bookmarks: data }))
+      .catch(err => console.error(err));
+  }
+
   render() {
     return (
       <div>
@@ -27,7 +39,7 @@ export default class Bookmarks extends React.Component {
               return (
                 <li className="workout-ideas" key={x.ExerciseName}>
                   <div>
-                    <h1 className="name-ideas">{x.ExerciseName} <i /* onClick={e => this.exercisePick(this.state.ideas.find(item => item.name === x.name))} */ className="used-star fa-sharp fa-solid fa-star" />
+                    <h1 className="name-ideas">{x.ExerciseName} <i onClick={e => this.deleteIdea(this.state.bookmarks.find(item => item.name === x.name))} className="used-star fa-sharp fa-solid fa-star" />
                     </h1>
                     <h3 className="muscle-name-ideas">Muscle: {x.MuscleGroup}</h3>
                     <h3 className="equipment-ideas">Equipment: {x.Equipment}</h3>

@@ -8,6 +8,7 @@ import Workouts from './pages/workouts';
 import EditForm from './pages/editform';
 import Ideas from './pages/ideas';
 import Bookmarks from './pages/bookmarks';
+import Tracker from './pages/tracker';
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -58,6 +59,9 @@ export default class App extends React.Component {
     }
     if (route.path === 'bookmarks') {
       return <Bookmarks />;
+    }
+    if (route.path === 'tracker') {
+      return <Tracker />;
     }
   }
 

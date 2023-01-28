@@ -40,17 +40,16 @@ export default class Tracker extends React.Component {
 
   render() {
     return (
-      <div>
-        <Bar
+      <div className="tracker">
+        <div className="bar-chart">
+          <Bar
           data={{
             labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
             datasets: [
               {
-                label: '# of days working outs',
+                label: '# of days working out per month',
                 data: this.monthPick(),
-                backgroundColor: '#fdd826',
-                borderColor: 'black',
-                borderWidth: 1
+                backgroundColor: '#fdd826'
               }
             ]
           }}
@@ -59,12 +58,25 @@ export default class Tracker extends React.Component {
           options= {{
             maintainAspectRatio: false,
             scales: {
-              yAxes: [{
-                ticks: { beginatZero: true }
-              }]
+              x: {
+                title: {
+                  display: true,
+                  text: 'Months'
+                }
+              },
+              y: {
+                title: {
+                  display: true,
+                  text: 'Workouts'
+                }
+              }
             }
           }}
         />
+        </div>
+        <div>
+          <h3 className="total-workouts-h3"> <span className="total-workouts-span">Total Number of Workouts: {this.state.workouts.length}</span></h3>
+        </div>
       </div>
     );
   }

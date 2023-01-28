@@ -51,7 +51,8 @@ header {
   text-align: center;
 }
 
-form {
+form,
+.total-workouts-h3 {
   text-align: center;
 }
 
@@ -327,4 +328,18 @@ select {
 .muscle-ideas {
   display: flex;
   justify-content: center;
+}
+
+.bar-chart {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.total-workouts-span {
+  position: relative;
+  top: 10px;
+  display: inline-block;
+  border-top: 1.5px solid #aaa;
+  border-bottom: 1.5px solid #aaa;
+  padding: 10px;
 }

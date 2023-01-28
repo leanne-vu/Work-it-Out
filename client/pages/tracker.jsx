@@ -53,7 +53,7 @@ export default class Tracker extends React.Component {
               }
             ]
           }}
-          height={400}
+          height={450}
           width={600}
           options= {{
             maintainAspectRatio: false,

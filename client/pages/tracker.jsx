@@ -1,5 +1,5 @@
 import React from 'react';
-import { Bar } from 'react-chartjs-2';
+import { Bar, Pie } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
 export default class Tracker extends React.Component {
@@ -39,6 +39,8 @@ export default class Tracker extends React.Component {
   }
 
   render() {
+    // console.log(this.state.workouts);
+
     return (
       <div className="tracker">
         <div className="bar-chart">
@@ -76,6 +78,30 @@ export default class Tracker extends React.Component {
         </div>
         <div>
           <h3 className="total-workouts-h3"> <span className="total-workouts-span">Total Number of Workouts: {this.state.workouts.length}</span></h3>
+        </div>
+        <div className="tracker">
+          <div className="bar-chart">
+            <Pie
+              data={{
+                labels: ['hello', 'bye'],
+                datasets: [
+                  {
+                    label: '# of muscle group workouts',
+                    data: [1, 5, 39, 4],
+                    backgroundColor: [
+                      'rgb(255, 99, 132)',
+                      'rgb(54, 162, 235)',
+                      'rgb(255, 205, 86)']
+                  }
+                ]
+              }}
+              height={450}
+              width={600}
+              options={{
+                maintainAspectRatio: false
+              }}
+            />
+          </div>
         </div>
       </div>
     );

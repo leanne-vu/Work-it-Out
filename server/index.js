@@ -96,6 +96,20 @@ ORDER BY "Date"
     });
 });
 
+app.get('/api/muscleGroup', (req, res, next) => {
+  const sql = `
+select "MuscleGroup"
+from "Exercises"
+`;
+  db.query(sql)
+    .then(result => {
+      res.status(201).json(result.rows);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
 app.put('/api/exercises/:WorkoutID', (req, res, next) => {
   const { workoutName, muscleGroup, reps, sets, notes } = req.body;
   const WorkoutID = Number(req.params.WorkoutID);

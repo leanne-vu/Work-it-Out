@@ -6,7 +6,8 @@ export default class Tracker extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      workouts: []
+      workouts: [],
+      exercises: []
     };
     this.monthPick = this.monthPick.bind(this);
   }
@@ -16,7 +17,10 @@ export default class Tracker extends React.Component {
       .then(response => response.json())
       .then(data => this.setState({ workouts: data }))
       .catch(err => console.error(err));
-
+    fetch('/api/muscleGroup')
+      .then(response => response.json())
+      .then(data => this.setState({ exercises: data }))
+      .catch(err => console.error(err));
   }
 
   monthPick() {
@@ -39,8 +43,6 @@ export default class Tracker extends React.Component {
   }
 
   render() {
-    // console.log(this.state.workouts);
-
     return (
       <div className="tracker">
         <div className="bar-chart">

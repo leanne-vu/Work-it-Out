@@ -10,6 +10,7 @@ export default class Tracker extends React.Component {
       exercises: []
     };
     this.monthPick = this.monthPick.bind(this);
+    this.musclePick = this.musclePick.bind(this);
   }
 
   componentDidMount() {
@@ -42,7 +43,31 @@ export default class Tracker extends React.Component {
     );
   }
 
+  musclePick() {
+    return (
+      [
+        this.state.exercises.filter(x => x.MuscleGroup === 'abdominals').length,
+        this.state.exercises.filter(x => x.MuscleGroup === 'abductors').length,
+        this.state.exercises.filter(x => x.MuscleGroup === 'biceps').length,
+        this.state.exercises.filter(x => x.MuscleGroup === 'calves').length,
+        this.state.exercises.filter(x => x.MuscleGroup === 'chest').length,
+        this.state.exercises.filter(x => x.MuscleGroup === 'forearms').length,
+        this.state.exercises.filter(x => x.MuscleGroup === 'glutes').length,
+        this.state.exercises.filter(x => x.MuscleGroup === 'hamstrings').length,
+        this.state.exercises.filter(x => x.MuscleGroup === 'lats').length,
+        this.state.exercises.filter(x => x.MuscleGroup === 'lower back').length,
+        this.state.exercises.filter(x => x.MuscleGroup === 'middle back').length,
+        this.state.exercises.filter(x => x.MuscleGroup === 'neck').length,
+        this.state.exercises.filter(x => x.MuscleGroup === 'quadriceps').length,
+        this.state.exercises.filter(x => x.MuscleGroup === 'traps').length,
+        this.state.exercises.filter(x => x.MuscleGroup === 'triceps').length,
+        this.state.exercises.filter(x => x.MuscleGroup === 'other').length
+      ]
+    );
+  }
+
   render() {
+
     return (
       <div className="tracker">
         <div className="bar-chart">
@@ -85,15 +110,13 @@ export default class Tracker extends React.Component {
           <div className="bar-chart">
             <Pie
               data={{
-                labels: ['hello', 'bye'],
+                labels: ['abdominals', 'abductors', 'biceps', 'calves', 'chest', 'forearms', 'glutes', 'hamstrings',
+                  'lats', 'lower back', 'middle back', 'neck', 'quadriceps', 'traps', 'triceps', 'other'],
                 datasets: [
                   {
-                    label: '# of muscle group workouts',
-                    data: [1, 5, 39, 4],
-                    backgroundColor: [
-                      'rgb(255, 99, 132)',
-                      'rgb(54, 162, 235)',
-                      'rgb(255, 205, 86)']
+                    label: '# of workouts',
+                    data: this.musclePick(),
+                    backgroundColor: ['rgb(104,175,252)', 'rgb(232,168,176)', 'rgb(218,162,24)', 'rgb(120,40,87)', 'rgb(144,182,115)', 'rgb(106,69,194)', 'rgb(242,87,156)', 'rgb(189,155,244)', 'rgb(25,121,89)', 'rgb(42,243,133)', 'rgb(28,234,249)', 'rgb(211,100,17)', 'rgb(18,92,185)', 'rgb(226,109,248)', 'rgb(110,57,1)', 'rgb(99,92,102)']
                   }
                 ]
               }}

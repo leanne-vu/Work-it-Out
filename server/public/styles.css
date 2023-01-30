@@ -330,9 +330,14 @@ select {
   justify-content: center;
 }
 
-.bar-chart {
+.bar-chart,
+.pie-chart {
   width: 80%;
   margin: 0 auto;
+}
+
+.pie-chart {
+  margin-top: 30px;
 }
 
 .total-workouts-span {

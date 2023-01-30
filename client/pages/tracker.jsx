@@ -106,9 +106,8 @@ export default class Tracker extends React.Component {
         <div>
           <h3 className="total-workouts-h3"> <span className="total-workouts-span">Total Number of Workouts: {this.state.workouts.length}</span></h3>
         </div>
-        <div className="tracker">
-          <div className="bar-chart">
-            <Pie
+        <div className="pie-chart">
+          <Pie
               data={{
                 labels: ['abdominals', 'abductors', 'biceps', 'calves', 'chest', 'forearms', 'glutes', 'hamstrings',
                   'lats', 'lower back', 'middle back', 'neck', 'quadriceps', 'traps', 'triceps', 'other'],
@@ -126,7 +125,6 @@ export default class Tracker extends React.Component {
                 maintainAspectRatio: false
               }}
             />
-          </div>
         </div>
       </div>
     );

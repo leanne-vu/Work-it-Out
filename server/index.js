@@ -1,5 +1,6 @@
 require('dotenv/config');
 const express = require('express');
+const argon2 = require('argon2'); // eslint-disable-line
 const staticMiddleware = require('./static-middleware');
 const errorMiddleware = require('./error-middleware');
 const ClientError = require('./client-error');
@@ -266,6 +267,47 @@ where "Date" = $1
           next(err);
         });
     }).catch(err => { next(err); });
+});
+
+app.post('/api/auth/sign-up', (req, res, next) => {
+  const { username, password } = req.body;
+  if (!username || !password) {
+    throw new ClientError(400, 'username and password are required fields');
+  }
+  const sql = `
+select *
+from "User"
+where "Username" = $1
+`;
+  const params = [username];
+  db.query(sql, params)
+    .then(result => {
+      if (result.rows.length < 1) {
+        res.status(201);
+      } else {
+        throw new ClientError(400, 'username already exists');
+      }
+    })
+    .then(data => {
+      argon2
+        .hash(password)
+        .then(hashedpassword => {
+          const sql = `
+      insert into "User" ("Username", "HashedPassword")
+      values ($1, $2)
+      returning "UserID"
+      `;
+          const params = [username, hashedpassword];
+          db.query(sql, params)
+            .then(result => {
+              const [users] = result.rows;
+              res.status(201).json(users);
+            })
+            .catch(err => next(err));
+        })
+        .catch(err => next(err));
+    })
+    .catch(err => next(err));
 });
 
 app.use(errorMiddleware);

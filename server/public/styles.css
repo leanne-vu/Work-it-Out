@@ -21,9 +21,12 @@ header {
   background-image: url("images/bgimage.jpg");
   height: 100vh;
   background-size: cover;
+  z-index: 0;
 }
 
-.workout-but {
+.workout-but,
+.sign-in-but,
+.sign-up-but {
   position: absolute;
   top: 60%;
   left: 50%;
@@ -36,6 +39,16 @@ header {
   cursor: pointer;
   border-radius: 5px;
   text-decoration: none;
+}
+
+.sign-in-but {
+  position: absolute;
+  left: 35%;
+}
+
+.sign-up-but {
+  position: absolute;
+  left: 65%;
 }
 
 .workout-but:hover {
@@ -74,7 +87,8 @@ select {
   height: 100px;
 }
 
-.form-submit-but {
+.form-submit-but,
+.sign-button {
   margin-block-start: 25px;
   border-radius: 4px;
   border: none;
@@ -97,7 +111,8 @@ select {
   visibility: hidden;
 }
 
-.overlay {
+.overlay,
+.overlay2 {
   background-color: rgb(0 0 0 / 30%);
   min-height: 100vh;
   position: absolute;
@@ -106,6 +121,10 @@ select {
   bottom: 0;
   left: 0;
   z-index: 1;
+}
+
+.overlay2 {
+  background-color: rgb(0 0 0 / 60%);
 }
 
 .menu {
@@ -245,7 +264,8 @@ select {
   color: white;
 }
 
-.details-menu {
+.details-menu,
+.sign-in-form {
   padding-top: 20px;
   height: 400px;
   width: 400px;
@@ -257,6 +277,12 @@ select {
   border: 2px black solid;
   border-radius: 4px;
   color: #2b2d42;
+}
+
+.sign-in-form {
+  height: 300px;
+  top: 30%;
+  border: 1px grey solid;
 }
 
 .details-date,
@@ -347,4 +373,24 @@ select {
   border-top: 1.5px solid #aaa;
   border-bottom: 1.5px solid #aaa;
   padding: 10px;
+}
+
+.running-exit {
+  color: black;
+}
+
+.text-user,
+.text-password {
+  margin-left: 30px;
+  margin-top: 10px;
+  height: 45px;
+}
+
+.sign-button {
+  margin-top: 50px;
+  width: 100px;
+}
+
+.all-text-sign {
+  margin-top: 15px;
 }

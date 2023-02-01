@@ -9,6 +9,7 @@ import EditForm from './pages/editform';
 import Ideas from './pages/ideas';
 import Bookmarks from './pages/bookmarks';
 import Tracker from './pages/tracker';
+import SignIn from './pages/sign-in';
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -41,7 +42,7 @@ export default class App extends React.Component {
   renderPage() {
 
     const { route } = this.state;
-    if (route.path === '') {
+    if (route.path === 'home') {
       return <Home />;
     }
     if (route.path === 'form') {
@@ -62,6 +63,9 @@ export default class App extends React.Component {
     }
     if (route.path === 'tracker') {
       return <Tracker />;
+    }
+    if (route.path === '') {
+      return <SignIn />;
     }
   }
 

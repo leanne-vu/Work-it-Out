@@ -383,14 +383,26 @@ select {
 .text-password {
   margin-left: 30px;
   margin-top: 10px;
+  margin-bottom: 10px;
   height: 45px;
 }
 
 .sign-button {
-  margin-top: 50px;
   width: 100px;
 }
 
 .all-text-sign {
-  margin-top: 15px;
+  margin-top: 10px;
+}
+
+.red {
+  color: red;
+}
+
+.green {
+  color: green;
+}
+
+.blue {
+  color: blue;
 }

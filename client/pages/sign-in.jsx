@@ -9,7 +9,9 @@ export default class SignIn extends React.Component {
       signInUser: '',
       signInPw: '',
       signUpUser: '',
-      signUpPw: ''
+      signUpPw: '',
+      alert: '',
+      UserID: null
     };
     this.isClicked1 = this.isClicked1.bind(this);
     this.exit1 = this.exit1.bind(this);
@@ -57,6 +59,10 @@ export default class SignIn extends React.Component {
     })
       .then(res =>
         res.json())
+      .then(data => {
+        if (data.error) { this.setState({ alert: data.error }); }
+        if (data.UserID) { this.setState({ alert: 'Successfully created an account!', UserID: data.UserID }); }
+      })
       .catch(err => console.error(err));
     this.setState({ signUpUser: '', signUpPw: '' }
     );
@@ -81,21 +87,58 @@ export default class SignIn extends React.Component {
       );
     }
     if (this.state.UpisClicked === true) {
-      return (
-        <div className="overlay2">
-          <div className="in-menu">
-            <form method="post" onSubmit={this.handleSignUpSubmit} className="sign-in-form">
-              <i onClick={this.exit2} className="running-exit fa-solid fa-person-running" />
-              <div className="all-text-sign">
-                <h3>New User? Sign up now!</h3>
-                <label htmlFor="sign-up-user">Username<input required name="sign-up-user" id="sign-up-user" className="text-user" type="text" onChange={this.handleSignUpUser} value={this.state.signUpUser}/></label>
-                <label htmlFor="sign-up-pw">Password<input required name="sign-up-pw" id="sign-up-pw" className="text-password" type="password" onChange={this.handleSignUpPw} value={this.state.signUpPw} /></label>
-                <div> <button className="sign-button" type="submit">Sign Up</button></div>
-              </div>
-            </form>
+      if (this.state.alert === 'Username already exists.') {
+        return (
+          <div className="overlay2">
+            <div className="in-menu">
+              <form method="post" onSubmit={this.handleSignUpSubmit} className="sign-in-form">
+                <i onClick={this.exit2} className="running-exit fa-solid fa-person-running" />
+                <div className="all-text-sign">
+                  <h3>New User? Sign up now!</h3>
+                  <label htmlFor="sign-up-user">Username<input required name="sign-up-user" id="sign-up-user" className="text-user" type="text" onChange={this.handleSignUpUser} value={this.state.signUpUser}/></label>
+                  <label htmlFor="sign-up-pw">Password<input required name="sign-up-pw" id="sign-up-pw" className="text-password" type="password" onChange={this.handleSignUpPw} value={this.state.signUpPw} /></label>
+                  <h6 className="red">{this.state.alert}</h6>
+                  <div> <button className="sign-button" type="submit">Sign Up</button></div>
+                </div>
+              </form>
+            </div>
           </div>
-        </div>
-      );
+        );
+      } if (this.state.alert === 'Successfully created an account!') {
+        return (
+          <div className="overlay2">
+            <div className="in-menu">
+              <form method="post" onSubmit={this.handleSignUpSubmit} className="sign-in-form">
+                <i onClick={this.exit2} className="running-exit fa-solid fa-person-running" />
+                <div className="all-text-sign">
+                  <h3>New User? Sign up now!</h3>
+                  <label htmlFor="sign-up-user">Username<input required name="sign-up-user" id="sign-up-user" className="text-user" type="text" onChange={this.handleSignUpUser} value={this.state.signUpUser} /></label>
+                  <label htmlFor="sign-up-pw">Password<input required name="sign-up-pw" id="sign-up-pw" className="text-password" type="password" onChange={this.handleSignUpPw} value={this.state.signUpPw} /></label>
+                  <h6 className="green">{this.state.alert}</h6>
+                  <div> <button className="sign-button" type="submit">Sign Up</button></div>
+                </div>
+              </form>
+            </div>
+          </div>
+        );
+      } else {
+        return (
+          <div className="overlay2">
+            <div className="in-menu">
+              <form method="post" onSubmit={this.handleSignUpSubmit} className="sign-in-form">
+                <i onClick={this.exit2} className="running-exit fa-solid fa-person-running" />
+                <div className="all-text-sign">
+                  <h3>New User? Sign up now!</h3>
+                  <label htmlFor="sign-up-user">Username<input required name="sign-up-user" id="sign-up-user" className="text-user" type="text" onChange={this.handleSignUpUser} value={this.state.signUpUser} /></label>
+                  <label htmlFor="sign-up-pw">Password<input required name="sign-up-pw" id="sign-up-pw" className="text-password" type="password" onChange={this.handleSignUpPw} value={this.state.signUpPw} /></label>
+                  <h6 className="blue">Please enter a username and password</h6>
+                  <div> <button className="sign-button" type="submit">Sign Up</button></div>
+                </div>
+              </form>
+            </div>
+          </div>
+        );
+      }
     } else {
       return (
         <div>

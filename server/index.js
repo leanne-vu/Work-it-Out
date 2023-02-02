@@ -285,7 +285,7 @@ where "Username" = $1
       if (result.rows.length < 1) {
         res.status(201);
       } else {
-        throw new ClientError(400, 'username already exists');
+        throw new ClientError(400, 'Username already exists.');
       }
     })
     .then(data => {

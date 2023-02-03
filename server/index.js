@@ -4,6 +4,7 @@ const argon2 = require('argon2'); // eslint-disable-line
 const staticMiddleware = require('./static-middleware');
 const errorMiddleware = require('./error-middleware');
 const ClientError = require('./client-error');
+const jwt = require('jsonwebtoken'); // eslint-disable-line
 const pg = require('pg');
 const db = new pg.Pool({ // eslint-disable-line
   connectionString: process.env.DATABASE_URL,
@@ -310,6 +311,42 @@ where "Username" = $1
     .catch(err => next(err));
 });
 
+app.post('/api/auth/sign-in', (req, res, next) => {
+  const { username, password } = req.body;
+  if (!username || !password) {
+    throw new ClientError(401, 'invalid login');
+  }
+  const sql =
+    `select "UserID",
+  "HashedPassword"
+  from "User"
+  where "Username" = $1
+   `;
+  const params = [username];
+  db.query(sql, params)
+    .then(result => {
+      const user = result.rows[0];
+      if (!user) {
+        throw new ClientError(401, 'invalid login');
+      } else {
+        argon2
+          .verify(user.HashedPassword, password)
+          .then(isMatching => {
+            if (isMatching === true) {
+              const payload = {
+                UserID: user.UserID,
+                username
+              };
+              const token = jwt.sign(payload, process.env.TOKEN_SECRET);
+              res.status(200).json({ token: `${token}`, user: payload });
+            } else { throw new ClientError(401, 'invalid login'); }
+          })
+          .catch(err => next(err));
+      }
+    })
+    .catch(err => next(err));
+
+});
 app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {

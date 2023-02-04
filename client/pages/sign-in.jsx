@@ -20,6 +20,9 @@ export default class SignIn extends React.Component {
     this.handleSignUpUser = this.handleSignUpUser.bind(this);
     this.handleSignUpPw = this.handleSignUpPw.bind(this);
     this.handleSignUpSubmit = this.handleSignUpSubmit.bind(this);
+    this.handleSignInSubmit = this.handleSignInSubmit.bind(this);
+    this.handleSignInUser = this.handleSignInUser.bind(this);
+    this.handleSignInPw = this.handleSignInPw.bind(this);
   }
 
   isClicked1() {
@@ -46,6 +49,14 @@ export default class SignIn extends React.Component {
     this.setState({ signUpPw: event.target.value });
   }
 
+  handleSignInUser(event) {
+    this.setState({ signInUser: event.target.value });
+  }
+
+  handleSignInPw(event) {
+    this.setState({ signInPw: event.target.value });
+  }
+
   handleSignUpSubmit(event) {
     event.preventDefault();
     const signUpCredentials = {
@@ -68,23 +79,65 @@ export default class SignIn extends React.Component {
     );
   }
 
+  handleSignInSubmit(event) {
+    event.preventDefault();
+    const signInCredentials = {
+      username: this.state.signInUser,
+      password: this.state.signInPw
+    };
+    fetch('/api/auth/sign-in', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(signInCredentials)
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (!data.error) {
+          window.location.hash = '#home';
+        } else {
+          this.setState({ alert: 'Invalid login.' });
+        }
+      })
+      .catch(err => console.error(err));
+  }
+
   render() {
     if (this.state.InisClicked === true) {
-      return (
-        <div className="overlay2">
-          <div className="in-menu">
-            <form className="sign-in-form">
-              <i onClick={this.exit1} className="running-exit fa-solid fa-person-running" />
-              <div className="all-text-sign">
-                <h4>Returning User? Sign in now!</h4>
-                <label htmlFor="sign-in-text">Username<input required name="sign-in-text" id="sign-in-text" className="text-user" type="text" /></label>
-                <label htmlFor="sign-in-pw">Password<input required name="sign-in-pw" id="sign-in-pw" className="text-password" type="password" /></label>
-                <div> <button className="sign-button" type="submit">Sign In</button></div>
-              </div>
-            </form>
+      if (this.state.alert === 'Invalid login.') {
+        return (
+          <div className="overlay2">
+            <div className="in-menu">
+              <form method='post' onSubmit={this.handleSignInSubmit} className="sign-in-form">
+                <i onClick={this.exit1} className="running-exit fa-solid fa-person-running" />
+                <div className="all-text-sign">
+                  <h4>Returning User? Sign in now!</h4>
+                  <label htmlFor="sign-in-text">Username<input required name="sign-in-text" id="sign-in-text" className="text-user" type="text" onChange={this.handleSignInUser} value={this.state.signInUser} /></label>
+                  <label htmlFor="sign-in-pw">Password<input required name="sign-in-pw" id="sign-in-pw" className="text-password" type="password" onChange={this.handleSignInPw} value={this.state.signInPw} /></label>
+                  <h6 className="red">{this.state.alert}</h6>
+                  <div> <button className="sign-button" type="submit">Sign In</button></div>
+                </div>
+              </form>
+            </div>
           </div>
-        </div>
-      );
+        );
+      } else {
+        return (
+          <div className="overlay2">
+            <div className="in-menu">
+              <form method='post' onSubmit={this.handleSignInSubmit} className="sign-in-form">
+                <i onClick={this.exit1} className="running-exit fa-solid fa-person-running" />
+                <div className="all-text-sign">
+                  <h4>Returning User? Sign in now!</h4>
+                  <label htmlFor="sign-in-text">Username<input required name="sign-in-text" id="sign-in-text" className="text-user" type="text" onChange={this.handleSignInUser} value={this.state.signInUser} /></label>
+                  <label htmlFor="sign-in-pw">Password<input required name="sign-in-pw" id="sign-in-pw" className="text-password" type="password" onChange={this.handleSignInPw} value={this.state.signInPw}/></label>
+                  <h6 className="blue">Please enter a valid username and password.</h6>
+                  <div> <button className="sign-button" type="submit">Sign In</button></div>
+                </div>
+              </form>
+            </div>
+          </div>
+        );
+      }
     }
     if (this.state.UpisClicked === true) {
       if (this.state.alert === 'Username already exists.') {

@@ -24,6 +24,7 @@ CREATE TABLE "public"."Exercises" (
 	"Sets" integer NOT NULL,
 	"Reps" integer NOT NULL,
 	"Notes" TEXT NOT NULL,
+  "UserID" integer NOT NULL,
 	CONSTRAINT "Exercises_pk" PRIMARY KEY ("WorkoutID")
 ) WITH (
   OIDS=FALSE

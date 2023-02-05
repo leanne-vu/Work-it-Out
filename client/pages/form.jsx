@@ -47,11 +47,14 @@ export default class Form extends React.Component {
       sets: this.state.sets,
       notes: this.state.notes
     };
-
     fetch('/api/exercises', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': window.localStorage.getItem('react-context-jwt')
+      },
       body: JSON.stringify(newExercise)
+
     })
       .then(res => res.json())
       .catch(err => console.error(err));

@@ -40,6 +40,7 @@ export default class Form extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     const newExercise = {
+      UserID: window.localStorage.getItem('UserID'),
       date: this.state.date,
       workoutName: this.state.workoutName,
       muscleGroup: this.state.muscleGroup,
@@ -51,7 +52,7 @@ export default class Form extends React.Component {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-access-token': window.localStorage.getItem('react-context-jwt')
+        'x-access-token': window.localStorage.getItem('Token')
       },
       body: JSON.stringify(newExercise)
 

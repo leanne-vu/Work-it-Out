@@ -10,8 +10,7 @@ export default class SignIn extends React.Component {
       signInPw: '',
       signUpUser: '',
       signUpPw: '',
-      alert: '',
-      UserID: null
+      alert: ''
     };
     this.isClicked1 = this.isClicked1.bind(this);
     this.exit1 = this.exit1.bind(this);
@@ -72,7 +71,7 @@ export default class SignIn extends React.Component {
         res.json())
       .then(data => {
         if (data.error) { this.setState({ alert: data.error }); }
-        if (data.UserID) { this.setState({ alert: 'Successfully created an account!', UserID: data.UserID }); }
+        if (data.UserID) { this.setState({ alert: 'Successfully created an account!' }); }
       })
       .catch(err => console.error(err));
     this.setState({ signUpUser: '', signUpPw: '' }
@@ -93,6 +92,8 @@ export default class SignIn extends React.Component {
       .then(res => res.json())
       .then(data => {
         if (!data.error) {
+          localStorage.setItem('Token', data.token);
+          localStorage.setItem('UserID', data.user.UserID);
           window.location.hash = '#home';
         } else {
           this.setState({ alert: 'Invalid login.' });

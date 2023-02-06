@@ -8,7 +8,7 @@ create schema "public";
 
 CREATE TABLE "public"."Workouts" (
 	"WorkoutID" serial NOT NULL,
-	"Date" DATE NOT NULL UNIQUE,
+	"Date" DATE NOT NULL,
 	"UserID" integer NOT NULL,
 	CONSTRAINT "Workouts_pk" PRIMARY KEY ("WorkoutID")
 ) WITH (

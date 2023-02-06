@@ -292,13 +292,13 @@ app.post('/api/ideas', (req, res, next) => {
 });
 
 app.post('/api/exercises', (req, res, next) => {
-  const { date, workoutName, muscleGroup, reps, sets, notes } = req.body;
+  const { UserID, date, workoutName, muscleGroup, reps, sets, notes } = req.body;
   const sql = `
 select *
 from "Workouts"
-where "Date" = $1
+where ("Date" = $1) and ("UserID"= $2)
 `;
-  const params = [date + 'T00:00:00Z'];
+  const params = [date + 'T00:00:00Z', UserID];
   db.query(sql, params)
     .then(result => {
       if (result.rows.length < 1) {
@@ -309,11 +309,11 @@ where "Date" = $1
     })
     .then(data => {
       const sql = `
-  insert into "Workouts" ("Date")
-  values ($1)
+  insert into "Workouts" ("Date", "UserID")
+  values ($1, $2)
   returning *
   `;
-      const params = [date];
+      const params = [date, UserID];
 
       db.query(sql, params)
         .then(result => {
@@ -328,11 +328,11 @@ where "Date" = $1
             throw new ClientError(400, 'workoutName, muscleGroup, reps, sets are required fields');
           } else {
             const sql = `
-        insert into "Exercises"("WorkoutID","WorkoutName", "MuscleGroup", "Sets", "Reps", "Notes" )
-        values ( $1, $2, $3, $4, $5, $6)
+        insert into "Exercises"("WorkoutID","WorkoutName", "MuscleGroup", "Sets", "Reps", "Notes", "UserID" )
+        values ( $1, $2, $3, $4, $5, $6, $7)
         returning *
         `;
-            const params = [data, workoutName, muscleGroup, sets, reps, notes];
+            const params = [data, workoutName, muscleGroup, sets, reps, notes, UserID];
             db.query(sql, params)
               .then(result => {
                 const [exercise] = result.rows;

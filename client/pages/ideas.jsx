@@ -16,7 +16,12 @@ export default class Ideas extends React.Component {
 
   handleClickItem(event) {
     const currentOffset = this.state.offset;
-    fetch(`/api/ideas/${this.state.offset}`)
+    fetch(`/api/ideas/${this.state.offset}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': window.localStorage.getItem('Token')
+      }
+    })
       .then(response => {
         return response.json();
       })
@@ -26,13 +31,24 @@ export default class Ideas extends React.Component {
   }
 
   componentDidMount() {
-    fetch(`/api/ideas/${this.props.offset}`)
+    const UserID = window.localStorage.getItem('UserID');
+    fetch(`/api/ideas/${this.props.offset}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': window.localStorage.getItem('Token')
+      }
+    })
       .then(response => {
         return response.json();
       })
       .then(data => this.setState({ ideas: data, isLoading: false }))
       .catch(err => console.error(err));
-    fetch('/api/ideas')
+    fetch(`/api/saved/${UserID}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': window.localStorage.getItem('Token')
+      }
+    })
       .then(response => {
         return response.json();
       })
@@ -43,7 +59,12 @@ export default class Ideas extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.offset !== prevProps.offset) {
-      fetch(`/api/ideas/${this.props.offset}`)
+      fetch(`/api/ideas/${this.props.offset}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'x-access-token': window.localStorage.getItem('Token')
+        }
+      })
         .then(response => {
           return response.json();
         })
@@ -54,14 +75,23 @@ export default class Ideas extends React.Component {
   }
 
   exercisePick(exercise) {
-    fetch('/api/ideas', {
+    const UserID = window.localStorage.getItem('UserID');
+    fetch(`/api/ideas/${UserID}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': window.localStorage.getItem('Token')
+      },
       body: JSON.stringify(exercise)
     })
       .then(res => res.json())
       .catch(err => console.error(err));
-    fetch('/api/ideas')
+    fetch(`/api/saved/${UserID}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': window.localStorage.getItem('Token')
+      }
+    })
       .then(response => {
         return response.json();
       })
@@ -80,20 +110,32 @@ export default class Ideas extends React.Component {
   }
 
   deleteIdea(exercise) {
-    fetch(`/api/ideas/${exercise.name}`, {
-      method: 'DELETE'
+    const UserID = window.localStorage.getItem('UserID');
+    fetch(`/api/ideas/${exercise.name}/${UserID}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': window.localStorage.getItem('Token')
+      }
     })
       .then(res => res.json())
       .catch(err => console.error(err));
     this.setState({ isClicked: false });
-    fetch('/api/ideas')
-      .then(response => response.json())
+    fetch(`/api/saved/${UserID}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': window.localStorage.getItem('Token')
+      }
+    })
+      .then(response => {
+        return response.json();
+      })
       .then(data => this.setState({ saved: data }))
       .catch(err => console.error(err));
+
   }
 
   render() {
-
     if (this.state.isLoading) {
       return;
     }

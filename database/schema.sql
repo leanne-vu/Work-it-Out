@@ -34,7 +34,7 @@ CREATE TABLE "public"."Exercises" (
 
 CREATE TABLE "public"."Exercise Ideas" (
 	"IdeaID" serial NOT NULL UNIQUE,
-	"ExerciseName" TEXT NOT NULL UNIQUE,
+	"ExerciseName" TEXT NOT NULL,
 	"MuscleGroup" TEXT NOT NULL,
   "Equipment" TEXT NOT NULL,
 	"Info" TEXT NOT NULL,

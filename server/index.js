@@ -137,12 +137,14 @@ app.get('/api/ideas/:offset', (req, res) => {
     });
 
 });
-app.get('/api/ideas', (req, res, next) => {
+app.get('/api/saved/:UserID', (req, res, next) => {
   const sql = `
-  select "ExerciseName"
+  select *
   from "Exercise Ideas"
+  where "UserID" = $1
   `;
-  db.query(sql)
+  const params = [req.params.UserID];
+  db.query(sql, params)
     .then(result => {
       res.status(201).json(result.rows);
     })
@@ -245,13 +247,13 @@ app.delete('/api/exercises/:WorkoutID', (req, res, next) => {
     .catch(err => { next(err); });
 });
 
-app.delete('/api/ideas/:exercise', (req, res, next) => {
+app.delete('/api/ideas/:exercise/:UserID', (req, res, next) => {
   const sql = `
   delete
   from "Exercise Ideas"
-  where "ExerciseName" = $1
+  where ("ExerciseName" = $1) and ("UserID" = $2)
   `;
-  const params = [req.params.exercise];
+  const params = [req.params.exercise, req.params.UserID];
   db.query(sql, params)
     .then(result => {
       res.status(201);
@@ -259,14 +261,15 @@ app.delete('/api/ideas/:exercise', (req, res, next) => {
     .catch(err => { next(err); });
 });
 
-app.post('/api/ideas', (req, res, next) => {
+app.post('/api/ideas/:UserID', (req, res, next) => {
   const { name, muscle, equipment, instructions } = req.body;
+  const UserID = req.params.UserID;
   const sql = `
   select *
   from "Exercise Ideas"
-  where "ExerciseName" = $1
+  where ("ExerciseName" = $1) and ("UserID" = $2)
   `;
-  const params = [name];
+  const params = [name, UserID];
   db.query(sql, params)
     .then(result => {
       if (result.rows.length === 1) {
@@ -275,10 +278,10 @@ app.post('/api/ideas', (req, res, next) => {
     })
     .then(data => {
       const sql = `
-   insert into "Exercise Ideas" ("ExerciseName", "MuscleGroup", "Equipment", "Info" )
-   values ($1, $2, $3, $4)
+   insert into "Exercise Ideas" ("ExerciseName", "MuscleGroup", "Equipment", "Info", "UserID" )
+   values ($1, $2, $3, $4, $5)
    returning * `;
-      const params = [name, muscle, equipment, instructions];
+      const params = [name, muscle, equipment, instructions, UserID];
       db.query(sql, params)
         .then(result => {
           const [exercise] = result.rows;

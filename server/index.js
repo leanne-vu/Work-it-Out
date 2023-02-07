@@ -152,13 +152,15 @@ app.get('/api/saved/:UserID', (req, res, next) => {
       next(err);
     });
 });
-app.get('/api/bookmarks', (req, res, next) => {
+app.get('/api/bookmarks/:UserID', (req, res, next) => {
   const sql = `
   select *
   from "Exercise Ideas"
+  where "UserID" = $1
   ORDER BY "IdeaID"
   `;
-  db.query(sql)
+  const params = [req.params.UserID];
+  db.query(sql, params)
     .then(result => {
       res.status(201).json(result.rows);
     })

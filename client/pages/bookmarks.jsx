@@ -9,7 +9,13 @@ export default class Bookmarks extends React.Component {
   }
 
   componentDidMount() {
-    fetch('/api/bookmarks')
+    const UserID = window.localStorage.getItem('UserID');
+    fetch(`/api/bookmarks/${UserID}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': window.localStorage.getItem('Token')
+      }
+    })
       .then(response => {
         return response.json();
       })
@@ -19,15 +25,28 @@ export default class Bookmarks extends React.Component {
   }
 
   deleteIdea(exercise) {
-    fetch(`/api/ideas/${exercise.ExerciseName}`, {
-      method: 'DELETE'
+    const UserID = window.localStorage.getItem('UserID');
+    fetch(`/api/ideas/${exercise.ExerciseName}/${UserID}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': window.localStorage.getItem('Token')
+      }
     })
       .then(res => res.json())
       .catch(err => console.error(err));
-    fetch('/api/bookmarks')
-      .then(response => response.json())
+    fetch(`/api/bookmarks/${UserID}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': window.localStorage.getItem('Token')
+      }
+    })
+      .then(response => {
+        return response.json();
+      })
       .then(data => this.setState({ bookmarks: data }))
       .catch(err => console.error(err));
+
   }
 
   render() {

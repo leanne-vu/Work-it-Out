@@ -185,12 +185,14 @@ ORDER BY "Date"
     });
 });
 
-app.get('/api/muscleGroup', (req, res, next) => {
+app.get('/api/muscleGroup/:UserID', (req, res, next) => {
   const sql = `
 select "MuscleGroup"
 from "Exercises"
+where "UserID" = $1
 `;
-  db.query(sql)
+  const params = [req.params.UserID];
+  db.query(sql, params)
     .then(result => {
       res.status(201).json(result.rows);
     })

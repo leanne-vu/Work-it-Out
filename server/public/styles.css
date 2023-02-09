@@ -107,6 +107,16 @@ select {
   left: 20px;
 }
 
+.sign-out-but {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  border: none;
+  background-color: #2b2d42;
+  color: white;
+  border-radius: 4px;
+}
+
 .hidden {
   visibility: hidden;
 }

@@ -21,6 +21,7 @@ export default class App extends React.Component {
     };
     this.updateInfo = this.updateInfo.bind(this);
     this.signOut = this.signOut.bind(this);
+    this.updateToken = this.updateToken.bind(this);
   }
 
   componentDidMount() {
@@ -40,6 +41,10 @@ export default class App extends React.Component {
     this.setState({ workouts: { x }, details: { y } });
   }
 
+  updateToken(x) {
+    this.setState({ token: { x } });
+  }
+
   signOut() {
     localStorage.setItem('Token', null);
     localStorage.setItem('UserID', null);
@@ -50,7 +55,7 @@ export default class App extends React.Component {
   renderPage() {
     const { route } = this.state;
     if (this.state.token === null) {
-      return <SignIn />;
+      return <SignIn updateToken={this.updateToken}/>;
     } else {
       if (route.path === 'home') {
         return <Home />;

@@ -100,6 +100,7 @@ export default class SignIn extends React.Component {
         }
       })
       .catch(err => console.error(err));
+    this.props.updateToken(window.localStorage.getItem('Token'));
   }
 
   render() {

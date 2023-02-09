@@ -14,11 +14,23 @@ export default class Tracker extends React.Component {
   }
 
   componentDidMount() {
-    fetch('/api/workouts')
+    const UserID = window.localStorage.getItem('UserID');
+
+    fetch(`/api/workouts/${UserID}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': window.localStorage.getItem('Token')
+      }
+    })
       .then(response => response.json())
       .then(data => this.setState({ workouts: data }))
       .catch(err => console.error(err));
-    fetch('/api/muscleGroup')
+    fetch(`/api/muscleGroup/${UserID}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': window.localStorage.getItem('Token')
+      }
+    })
       .then(response => response.json())
       .then(data => this.setState({ exercises: data }))
       .catch(err => console.error(err));

@@ -1,8 +1,11 @@
 require('dotenv/config');
 const express = require('express');
+const argon2 = require('argon2'); // eslint-disable-line
 const staticMiddleware = require('./static-middleware');
 const errorMiddleware = require('./error-middleware');
 const ClientError = require('./client-error');
+const jwt = require('jsonwebtoken'); // eslint-disable-line
+const authorizationMiddleware = require('./authorization-middleware');
 const pg = require('pg');
 const db = new pg.Pool({ // eslint-disable-line
   connectionString: process.env.DATABASE_URL,
@@ -13,6 +16,86 @@ const db = new pg.Pool({ // eslint-disable-line
 const app = express();
 app.use(express.json());
 app.use(staticMiddleware);
+
+app.post('/api/auth/sign-up', (req, res, next) => {
+  const { username, password } = req.body;
+  if (!username || !password) {
+    throw new ClientError(400, 'username and password are required fields');
+  }
+  const sql = `
+select *
+from "User"
+where "Username" = $1
+`;
+  const params = [username];
+  db.query(sql, params)
+    .then(result => {
+      if (result.rows.length < 1) {
+        res.status(201);
+      } else {
+        throw new ClientError(400, 'Username already exists.');
+      }
+    })
+    .then(data => {
+      argon2
+        .hash(password)
+        .then(hashedpassword => {
+          const sql = `
+      insert into "User" ("Username", "HashedPassword")
+      values ($1, $2)
+      returning "UserID"
+      `;
+          const params = [username, hashedpassword];
+          db.query(sql, params)
+            .then(result => {
+              const [users] = result.rows;
+              res.status(201).json(users);
+            })
+            .catch(err => next(err));
+        })
+        .catch(err => next(err));
+    })
+    .catch(err => next(err));
+});
+
+app.post('/api/auth/sign-in', (req, res, next) => {
+  const { username, password } = req.body;
+  if (!username || !password) {
+    throw new ClientError(401, 'invalid login');
+  }
+  const sql =
+    `select "UserID",
+  "HashedPassword"
+  from "User"
+  where "Username" = $1
+   `;
+  const params = [username];
+  db.query(sql, params)
+    .then(result => {
+      const user = result.rows[0];
+      if (!user) {
+        throw new ClientError(401, 'invalid login');
+      } else {
+        argon2
+          .verify(user.HashedPassword, password)
+          .then(isMatching => {
+            if (isMatching === true) {
+              const payload = {
+                UserID: user.UserID,
+                username
+              };
+              const token = jwt.sign(payload, process.env.TOKEN_SECRET);
+              res.status(200).json({ token: `${token}`, user: payload });
+            } else { throw new ClientError(401, 'invalid login'); }
+          })
+          .catch(err => next(err));
+      }
+    })
+    .catch(err => next(err));
+
+});
+
+app.use(authorizationMiddleware);
 
 app.get('/api/exercises/:WorkoutID', (req, res, next) => {
   const WorkoutID = Number(req.params.WorkoutID);
@@ -54,26 +137,14 @@ app.get('/api/ideas/:offset', (req, res) => {
     });
 
 });
-app.get('/api/ideas', (req, res, next) => {
-  const sql = `
-  select "ExerciseName"
-  from "Exercise Ideas"
-  `;
-  db.query(sql)
-    .then(result => {
-      res.status(201).json(result.rows);
-    })
-    .catch(err => {
-      next(err);
-    });
-});
-app.get('/api/bookmarks', (req, res, next) => {
+app.get('/api/saved/:UserID', (req, res, next) => {
   const sql = `
   select *
   from "Exercise Ideas"
-  ORDER BY "IdeaID"
+  where "UserID" = $1
   `;
-  db.query(sql)
+  const params = [req.params.UserID];
+  db.query(sql, params)
     .then(result => {
       res.status(201).json(result.rows);
     })
@@ -81,13 +152,31 @@ app.get('/api/bookmarks', (req, res, next) => {
       next(err);
     });
 });
-app.get('/api/workouts', (req, res, next) => {
+app.get('/api/bookmarks/:UserID', (req, res, next) => {
+  const sql = `
+  select *
+  from "Exercise Ideas"
+  where "UserID" = $1
+  ORDER BY "IdeaID"
+  `;
+  const params = [req.params.UserID];
+  db.query(sql, params)
+    .then(result => {
+      res.status(201).json(result.rows);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+app.get('/api/workouts/:UserID', (req, res, next) => {
   const sql = `
 select *
 from "Workouts"
+where "UserID" = $1
 ORDER BY "Date"
 `;
-  db.query(sql)
+  const params = [req.params.UserID];
+  db.query(sql, params)
     .then(result => {
       res.status(201).json(result.rows);
     })
@@ -96,12 +185,14 @@ ORDER BY "Date"
     });
 });
 
-app.get('/api/muscleGroup', (req, res, next) => {
+app.get('/api/muscleGroup/:UserID', (req, res, next) => {
   const sql = `
 select "MuscleGroup"
 from "Exercises"
+where "UserID" = $1
 `;
-  db.query(sql)
+  const params = [req.params.UserID];
+  db.query(sql, params)
     .then(result => {
       res.status(201).json(result.rows);
     })
@@ -160,13 +251,13 @@ app.delete('/api/exercises/:WorkoutID', (req, res, next) => {
     .catch(err => { next(err); });
 });
 
-app.delete('/api/ideas/:exercise', (req, res, next) => {
+app.delete('/api/ideas/:exercise/:UserID', (req, res, next) => {
   const sql = `
   delete
   from "Exercise Ideas"
-  where "ExerciseName" = $1
+  where ("ExerciseName" = $1) and ("UserID" = $2)
   `;
-  const params = [req.params.exercise];
+  const params = [req.params.exercise, req.params.UserID];
   db.query(sql, params)
     .then(result => {
       res.status(201);
@@ -174,14 +265,15 @@ app.delete('/api/ideas/:exercise', (req, res, next) => {
     .catch(err => { next(err); });
 });
 
-app.post('/api/ideas', (req, res, next) => {
+app.post('/api/ideas/:UserID', (req, res, next) => {
   const { name, muscle, equipment, instructions } = req.body;
+  const UserID = req.params.UserID;
   const sql = `
   select *
   from "Exercise Ideas"
-  where "ExerciseName" = $1
+  where ("ExerciseName" = $1) and ("UserID" = $2)
   `;
-  const params = [name];
+  const params = [name, UserID];
   db.query(sql, params)
     .then(result => {
       if (result.rows.length === 1) {
@@ -190,10 +282,10 @@ app.post('/api/ideas', (req, res, next) => {
     })
     .then(data => {
       const sql = `
-   insert into "Exercise Ideas" ("ExerciseName", "MuscleGroup", "Equipment", "Info" )
-   values ($1, $2, $3, $4)
+   insert into "Exercise Ideas" ("ExerciseName", "MuscleGroup", "Equipment", "Info", "UserID" )
+   values ($1, $2, $3, $4, $5)
    returning * `;
-      const params = [name, muscle, equipment, instructions];
+      const params = [name, muscle, equipment, instructions, UserID];
       db.query(sql, params)
         .then(result => {
           const [exercise] = result.rows;
@@ -209,14 +301,13 @@ app.post('/api/ideas', (req, res, next) => {
 });
 
 app.post('/api/exercises', (req, res, next) => {
-
-  const { date, workoutName, muscleGroup, reps, sets, notes } = req.body;
+  const { UserID, date, workoutName, muscleGroup, reps, sets, notes } = req.body;
   const sql = `
 select *
 from "Workouts"
-where "Date" = $1
+where ("Date" = $1) and ("UserID"= $2)
 `;
-  const params = [date + 'T00:00:00Z'];
+  const params = [date + 'T00:00:00Z', UserID];
   db.query(sql, params)
     .then(result => {
       if (result.rows.length < 1) {
@@ -227,11 +318,11 @@ where "Date" = $1
     })
     .then(data => {
       const sql = `
-  insert into "Workouts" ("Date")
-  values ($1)
+  insert into "Workouts" ("Date", "UserID")
+  values ($1, $2)
   returning *
   `;
-      const params = [date];
+      const params = [date, UserID];
 
       db.query(sql, params)
         .then(result => {
@@ -246,11 +337,11 @@ where "Date" = $1
             throw new ClientError(400, 'workoutName, muscleGroup, reps, sets are required fields');
           } else {
             const sql = `
-        insert into "Exercises"("WorkoutID","WorkoutName", "MuscleGroup", "Sets", "Reps", "Notes" )
-        values ( $1, $2, $3, $4, $5, $6)
+        insert into "Exercises"("WorkoutID","WorkoutName", "MuscleGroup", "Sets", "Reps", "Notes", "UserID" )
+        values ( $1, $2, $3, $4, $5, $6, $7)
         returning *
         `;
-            const params = [data, workoutName, muscleGroup, sets, reps, notes];
+            const params = [data, workoutName, muscleGroup, sets, reps, notes, UserID];
             db.query(sql, params)
               .then(result => {
                 const [exercise] = result.rows;

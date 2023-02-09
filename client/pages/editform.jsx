@@ -53,7 +53,10 @@ export default class EditForm extends React.Component {
     };
     fetch(`/api/exercises/${this.props.details.y[0].WorkoutID}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': window.localStorage.getItem('Token')
+      },
       body: JSON.stringify(Edit)
     })
       .then(res => res.json())

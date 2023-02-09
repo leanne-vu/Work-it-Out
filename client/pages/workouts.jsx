@@ -24,8 +24,13 @@ export default class Workouts extends React.Component {
   }
 
   componentDidMount() {
-
-    fetch('/api/workouts')
+    const UserID = window.localStorage.getItem('UserID');
+    fetch(`/api/workouts/${UserID}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': window.localStorage.getItem('Token')
+      }
+    })
       .then(response => response.json())
       .then(data => this.setState({ workouts: data }))
       .catch(err => console.error(err));
@@ -40,7 +45,12 @@ export default class Workouts extends React.Component {
   }
 
   datePick(event, WorkoutID) {
-    fetch(`/api/exercises/${WorkoutID}`)
+    fetch(`/api/exercises/${WorkoutID}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': window.localStorage.getItem('Token')
+      }
+    })
       .then(response => response.json())
       .then(data => this.setState({ details: data, isClicked: true }))
       .catch(err => console.error(err));
@@ -52,12 +62,22 @@ export default class Workouts extends React.Component {
 
   deleteExercise(WorkoutID) {
     fetch(`/api/exercises/${this.state.details[0].WorkoutID}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': window.localStorage.getItem('Token')
+      }
     })
       .then(res => res.json())
       .catch(err => console.error(err));
     this.setState({ isClicked: false });
-    fetch('/api/workouts')
+    const UserID = window.localStorage.getItem('UserID');
+    fetch(`/api/workouts/${UserID}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': window.localStorage.getItem('Token')
+      }
+    })
       .then(response => response.json())
       .then(data => this.setState({ workouts: data }))
       .catch(err => console.error(err));

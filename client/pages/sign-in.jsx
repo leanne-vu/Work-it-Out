@@ -92,8 +92,8 @@ export default class SignIn extends React.Component {
       .then(res => res.json())
       .then(data => {
         if (!data.error) {
-          localStorage.setItem('Token', data.token);
-          localStorage.setItem('UserID', data.user.UserID);
+          window.localStorage.setItem('Token', data.token);
+          window.localStorage.setItem('UserID', data.user.UserID);
           window.location.hash = '#home';
         } else {
           this.setState({ alert: 'Invalid login.' });

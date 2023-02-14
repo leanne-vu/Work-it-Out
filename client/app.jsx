@@ -41,8 +41,8 @@ export default class App extends React.Component {
   }
 
   signOut() {
-    localStorage.setItem('Token', null);
-    localStorage.setItem('UserID', null);
+    window.localStorage.setItem('Token', null);
+    window.localStorage.setItem('UserID', null);
     window.location.hash = '';
     this.setState({ token: null });
   }

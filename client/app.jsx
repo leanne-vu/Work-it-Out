@@ -30,11 +30,6 @@ export default class App extends React.Component {
       this.setState({ route: hello });
 
     });
-    /**
-     * Listen for hash change events on the window object
-     * Each time the window.location.hash changes, parse
-     * it with the parseRoute() function and update state
-     */
   }
 
   updateInfo(x, y) {

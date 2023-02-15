@@ -93,7 +93,6 @@ export default class SignIn extends React.Component {
       .then(data => {
         if (!data.error) {
           this.props.updateToken(window.localStorage.getItem('Token'));
-
           window.localStorage.setItem('Token', data.token);
           window.localStorage.setItem('UserID', data.user.UserID);
           window.location.hash = '#home';

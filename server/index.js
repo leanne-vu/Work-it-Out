@@ -120,7 +120,7 @@ app.get('/api/ideas/:offset', (req, res) => {
   fetch(`https://api.api-ninjas.com/v1/exercises?offset=${offset}`, {
     method: 'GET',
     headers: {
-      'X-API-KEY': 'Hh5CnkkdbOqNTMmwv/hdTg==M2w3lboMPCWzoTv0',
+      'X-API-KEY': process.env.TOKEN_SECRET,
       Accept: 'application/json',
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*'

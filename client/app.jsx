@@ -44,12 +44,12 @@ export default class App extends React.Component {
     window.localStorage.setItem('Token', null);
     window.localStorage.setItem('UserID', null);
     window.location.hash = '';
-    this.setState({ token: null });
+    this.setState({ token: 'null' });
   }
 
   renderPage() {
     const { route } = this.state;
-    if (this.state.token === null) {
+    if (this.state.token === 'null') {
       return <SignIn updateToken={this.updateToken}/>;
     } else {
       if (route.path === 'home') {
@@ -78,7 +78,7 @@ export default class App extends React.Component {
   }
 
   render() {
-    if (this.state.token === null) {
+    if (this.state.token === 'null') {
       return (
         <>
           <Header />

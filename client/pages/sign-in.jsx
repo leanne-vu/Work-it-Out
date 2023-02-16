@@ -22,6 +22,11 @@ export default class SignIn extends React.Component {
     this.handleSignInSubmit = this.handleSignInSubmit.bind(this);
     this.handleSignInUser = this.handleSignInUser.bind(this);
     this.handleSignInPw = this.handleSignInPw.bind(this);
+    this.modalSwitch = this.modalSwitch.bind(this);
+  }
+
+  modalSwitch() {
+    this.setState({ InisClicked: true, UpisClicked: false });
   }
 
   isClicked1() {
@@ -169,7 +174,8 @@ export default class SignIn extends React.Component {
                   <h3>New User? Sign up now!</h3>
                   <label htmlFor="sign-up-user">Username<input required name="sign-up-user" id="sign-up-user" className="text-user" type="text" onChange={this.handleSignUpUser} value={this.state.signUpUser} /></label>
                   <label htmlFor="sign-up-pw">Password<input required name="sign-up-pw" id="sign-up-pw" className="text-password" type="password" onChange={this.handleSignUpPw} value={this.state.signUpPw} /></label>
-                  <h6 className="green">{this.state.alert}</h6>
+                  <h6 className="green">{this.state.alert}<a onClick={this.modalSwitch}className="sign-in-question"> Sign In?</a></h6>
+
                   <div> <button className="sign-button" type="submit">Sign Up</button></div>
                 </div>
               </form>

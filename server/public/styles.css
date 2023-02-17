@@ -115,6 +115,7 @@ select {
   background-color: #2b2d42;
   color: white;
   border-radius: 4px;
+  padding: 0 10px;
 }
 
 .hidden {
@@ -353,9 +354,14 @@ select:hover {
   color: #2b2d42;
 }
 
+.sign-in-question {
+  margin-left: 5px;
+}
+
 .fa-person-running:hover,
 .fa-pen-to-square:hover,
-.fa-trash-can:hover {
+.fa-trash-can:hover,
+.sign-in-question:hover {
   cursor: pointer;
 }
 
@@ -408,12 +414,4 @@ select:hover {
 
 .all-text-sign {
   margin-top: 10px;
-}
-
-.sign-in-question {
-  margin-left: 5px;
-}
-
-.sign-in-question:hover {
-  cursor: pointer;
 }

@@ -66,18 +66,18 @@ https://workitout.page
         - components (directory)
         - lib (directory)
         - pages (directory)
-        -app.jsx
-        -index.jsx
+        - app.jsx
+        - index.jsx
     - database (directory)
         - data.sql
         - import.sh
-        -schema.sql
+        - schema.sql
     - server (directory)
         - public (directory)
         - authorization-middleware.js
         - client-error.js
         - error-middleware.js
-        -  index.js
+        - index.js
         - static-middleware.js
 
 2. Install all dependencies with NPM or copy package.json

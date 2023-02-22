@@ -24,6 +24,7 @@ https://workitout.page
 ![Babel](https://img.shields.io/badge/Babel-F9DC3e?style=for-the-badge&logo=babel&logoColor=black)
 ![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
 ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
+![Ubuntu](https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)
 
 **Work it Out also utlizes a public API, [API Ninja's Exercise API ](https://api-ninjas.com/api/exercises). The API serves random exercises for users.**
 
@@ -43,11 +44,46 @@ https://workitout.page
 #### How to create an account and sign in.
 ![ How to create an account and sign in. ](/gifs/signin.gif)
 #### How to add a workout for a day and see its info (can edit and delete workouts as well).
-![ How to add a workout for a day and see its info. ](/gifs/path.gif)
+![ How to add a workout for a day and see its info. ](/gifs/workout.gif)
 #### How to find new exercise ideas and view saved ideas.
-![How to find new exercise ideas and view saved ](/gifs/path.gif)
+![How to find new exercise ideas and view saved ](/gifs/ideas.gif)
 #### How the graph and pie chart displays workout information.
-![How to find new exercise ideas and view saved ](/gifs/path.gif)
+![How the graph and pie chart displays workout information. ](/gifs/tracker.gif)
 ## Stretch Features[![](https://raw.githubusercontent.com/aregtech/areg-sdk/master/docs/img/pin.svg)](#pin)
 * Separate workouts by year.
 ## Getting Started[![](https://raw.githubusercontent.com/aregtech/areg-sdk/master/docs/img/pin.svg)](#pin)
+1. Clone the repository.
+
+    ```shell
+    git clone https://github.com/leanne-vu/work-it-out.git
+    ```
+ **or**
+
+1. Copy code of project at
+ https://github.com/leanne-vu/work-it-out
+
+   - client (directory)
+        - components (directory)
+        - lib (directory)
+        - pages (directory)
+        -app.jsx
+        -index.jsx
+    - database (directory)
+        - data.sql
+        - import.sh
+        -schema.sql
+    - server (directory)
+        - public (directory)
+        - authorization-middleware.js
+        - client-error.js
+        - error-middleware.js
+        -  index.js
+        - static-middleware.js
+
+2. Install all dependencies with NPM or copy package.json
+
+    ```shell
+    npm install
+    ```
+
+3. Start the project. You may open the project using live server or your chosen program to serve the files.

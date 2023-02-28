@@ -132,7 +132,7 @@ export default class EditForm extends React.Component {
             <div className="column-full-date">
               <label className="notes-label" htmlFor="notes">
                 Details
-                <input placeholder="Workout details or notes" className="notes-control form-control" name="notes" type="text" id="notes" onChange={this.handleNoteChange} value={this.state.notes} />
+                <textarea placeholder="Workout details or notes" className="notes-control form-control" name="notes" type="text" id="notes" onChange={this.handleNoteChange} value={this.state.notes} />
               </label>
             </div>
           </div>

@@ -25,6 +25,10 @@
     left: 6em;
   }
 
+  .list {
+    text-align: center;
+  }
+
   .muscle-group-select {
     position: relative;
     top: 45px;
@@ -32,38 +36,10 @@
   }
 }
 
-@media screen and (min-width: 1350px) {
+@media screen and (min-width: 1300px) {
   form {
     width: 900px;
     position: relative;
-    left: 17em;
-  }
-
-  .muscle-group-label {
-    position: relative;
-    left: 6.3em;
-  }
-
-  .list {
-    text-align: center;
-  }
-
-  .workoutname-column,
-  .rep-column {
-    text-align: left;
-    position: relative;
-    left: 4.5em;
-  }
-
-  .set-column {
-    text-align: left;
-    position: relative;
-    left: 8.5em;
-  }
-
-  .muscle-group-select {
-    position: relative;
-    top: 45px;
-    right: 10.5em;
+    left: 16.5em;
   }
 }

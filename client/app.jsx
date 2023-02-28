@@ -49,6 +49,9 @@ export default class App extends React.Component {
 
   renderPage() {
     const { route } = this.state;
+    if (this.state.token === null) {
+      return <SignIn updateToken={this.updateToken}/>;
+    }
     if (this.state.token === 'null') {
       return <SignIn updateToken={this.updateToken}/>;
     } else {
@@ -78,7 +81,7 @@ export default class App extends React.Component {
   }
 
   render() {
-    if (this.state.token === 'null') {
+    if (this.state.token === 'null' || this.state.token === null) {
       return (
         <>
           <Header />

@@ -55,7 +55,7 @@ export default class App extends React.Component {
     if (this.state.token === 'null') {
       return <SignIn updateToken={this.updateToken}/>;
     } else {
-      if (route.path === 'home') {
+      if (route.path === 'home' || route.path === '') {
         return <Home />;
       }
       if (route.path === 'form') {

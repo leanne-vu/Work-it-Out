@@ -3,7 +3,7 @@
      alt="Spongebob lifting" width="250" height="178">
 
 
-Work it Out is a full-stack web application for  exercise-enthusiasts who want to keep track of their daily workouts. The application includes a public API.
+Work it Out is a full-stack web application for  fitness enthusiasts who want to keep track of their daily workouts. The application includes a public API.
 
 As an avid gym-goer, I wanted to build an application that would allow me to keep track of my daily workouts so I can look back during the week and decide my next day. I found myself writing down what exercises I did and what muscles I was focusing on each day in a notes app.  This inspired me to build an application that would better organize this information!
 
